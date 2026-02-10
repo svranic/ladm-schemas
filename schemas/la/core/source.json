@@ -1,117 +1,124 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/source.json",
-  "title": "LADM LA_Source class definition",
-  "description": "The abstract class to provide support for sources. It has two subclasses: LA_AdministrativeSource and LA_SpatialSource.",
-  
-  "$comment": "The schema structure is defined in $defs to allow importing into other schemas",
-  "$ref": "#/$defs/LA_Source",
-  
-  "$defs": {
-    "LA_Source": {
-      "type": "object",
-      "properties": {
-        "sID": {
-          "description": "LADM Oid - The unique identifier of the source",
-          "$ref": "datatypes.json#/$defs/Oid"
-        },
-        "availabilityStatus": {
-          "description": "LA_AvailabilityStatusType - The status of the document availability",
-          "$ref": "datatypes.json#/$defs/LA_AvailabilityStatusType"
-        },
-        "maintype": {
-          "description": "CI_PresentationFormCode (ISO 19115) - The presentation form",
-          "type": "string",
-          "enum": [
-            "documentDigital",
-            "documentHardcopy",
-            "mapDigital",
-            "mapHardcopy",
-            "tableDigital",
-            "tableHardcopy",
-            "videoDigital",
-            "audioDigital",
-            "multimediaDigital"
-          ]
-        },
-        "submission": {
-          "description": "The date and time of document submission",
-          "type": "string",
-          "format": "date-time"
-        },
-        "acceptance": {
-          "description": "The date and time of document acceptance",
-          "type": "string",
-          "format": "date-time"
-        },
-        "recordation": {
-          "description": "The date and time of the official recordation",
-          "type": "string",
-          "format": "date-time"
-        },
-        "lifeSpanStamp": {
-          "description": "The date and time of the lifecycle in the database",
-          "type": "string",
-          "format": "date-time"
-        },
-        "extArchiveID": {
-          "description": "The reference to an external archive (ExtArchive)",
-          "$ref": "#/$defs/ExtArchive"
-        },
-        "quality": {
-          "description": "Data quality elements applicable to this source",
-          "type": "array",
-          "items": {
-            "$ref": "datatypes.json#/$defs/DQ_Quality"
-          }
-        },
-        "source": {
-          "description": "CI_ResponsibleParty - The party responsible for the document (Author/Surveyor)",
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "$ref": "datatypes.json#/$defs/CI_ResponsibleParty" },
-              { "type": "string", "format": "uri-reference" }
-            ]
-          }
-        },
-        
-        "createdObjects": {
-          "description": "List of VersionedObjects (e.g., Parcels, Rights) created/started by this source event. Can be URI references or full embedded objects.",
-          "type": "array",
-		  "items": {
-			  "title": "Reference by URI",
-			  "type": "string",
-			  "format": "uri",
-			  "description": "URI Reference to the object"
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/source.json",
+	"title": "LADM LA_Source class definition",
+	"description": "The abstract class to provide support for sources. It has two subclasses: LA_AdministrativeSource and LA_SpatialSource.",
+	"$comment": "The schema structure is defined in $defs to allow importing into other schemas",
+	"$ref": "#/$defs/LA_Source",
+	"$defs": {
+		"LA_Source": {
+			"type": "object",
+			"properties": {
+				"sID": {
+					"description": "LADM Oid - The unique identifier of the source",
+					"$ref": "./datatypes.json#/$defs/Oid"
+				},
+				"availabilityStatus": {
+					"description": "LA_AvailabilityStatusType - The status of the document availability",
+					"$ref": "./datatypes.json#/$defs/LA_AvailabilityStatusType"
+				},
+				"maintype": {
+					"description": "CI_PresentationFormCode (ISO 19115) - The presentation form",
+					"type": "string",
+					"enum": [
+						"documentDigital",
+						"documentHardcopy",
+						"mapDigital",
+						"mapHardcopy",
+						"tableDigital",
+						"tableHardcopy",
+						"videoDigital",
+						"audioDigital",
+						"multimediaDigital"
+					]
+				},
+				"submission": {
+					"description": "The date and time of document submission",
+					"type": "string",
+					"format": "date-time"
+				},
+				"acceptance": {
+					"description": "The date and time of document acceptance",
+					"type": "string",
+					"format": "date-time"
+				},
+				"recordation": {
+					"description": "The date and time of the official recordation",
+					"type": "string",
+					"format": "date-time"
+				},
+				"lifeSpanStamp": {
+					"description": "The date and time of the lifecycle in the database",
+					"type": "string",
+					"format": "date-time"
+				},
+				"extArchiveID": {
+					"description": "The reference to an external archive (ExtArchive)",
+					"$ref": "#/$defs/ExtArchive"
+				},
+				"quality": {
+					"description": "Data quality elements applicable to this source",
+					"type": "array",
+					"items": {
+						"$ref": "./datatypes.json#/$defs/DQ_Quality"
+					}
+				},
+				"source": {
+					"description": "CI_ResponsibleParty - The party responsible for the document (Author/Surveyor)",
+					"type": "array",
+					"items": {
+						"oneOf": [
+							{
+								"$ref": "./datatypes.json#/$defs/CI_ResponsibleParty"
+							},
+							{
+								"type": "string",
+								"format": "uri-reference"
+							}
+						]
+					}
+				},
+				"createdObjects": {
+					"description": "List of VersionedObjects (e.g., Parcels, Rights) created/started by this source event. Can be URI references or full embedded objects.",
+					"type": "array",
+					"items": {
+						"title": "Reference by URI",
+						"type": "string",
+						"format": "uri",
+						"description": "URI Reference to the object"
+					}
+				},
+				"voidedObjects": {
+					"description": "List of VersionedObjects (e.g., Parcels, Rights) destroyed/ended by this source event. Can be URI references or full embedded objects.",
+					"type": "array",
+					"items": {
+						"title": "Reference by URI",
+						"type": "string",
+						"format": "uri",
+						"description": "URI Reference to the object"
+					}
+				}
+			},
+			"required": [
+				"sID",
+				"availabilityStatus"
+			]
+		},
+		"ExtArchive": {
+			"type": "object",
+			"description": "External archive class definition",
+			"properties": {
+				"archiveID": {
+					"type": "string"
+				},
+				"acceptanceDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"name": {
+					"type": "string"
+				}
 			}
-        },
-        
-        "voidedObjects": {
-          "description": "List of VersionedObjects (e.g., Parcels, Rights) destroyed/ended by this source event. Can be URI references or full embedded objects.",
-          "type": "array",
-          "items": {
-			  "title": "Reference by URI",
-			  "type": "string",
-			  "format": "uri",
-			  "description": "URI Reference to the object"
-			}
-        }
-      },
-      "required": [
-        "sID",
-        "availabilityStatus"
-      ]
-    },
-
-    "ExtArchive": {
-      "type": "object",
-      "description": "External archive class definition",
-      "properties": {
-        "archiveID": { "type": "string" },
-        "acceptanceDate": { "type": "string", "format": "date" },
-        "name": { "type": "string" }
-      }
-    }
-  }
+		}
+	}
 }

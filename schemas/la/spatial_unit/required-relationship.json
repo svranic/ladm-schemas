@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/required-relationship.json",
+  "title": "LADM LA_RequiredRelationship",
+  "description": "Defines explicit topological or spatial relationships between two spatial units (su1 and su2), often used for consistency constraints.",
+
+  "allOf": [
+    {
+      "$comment": "1. INHERITANCE: Is a Versioned Object (History)",
+      "$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+    },
+    {
+      "$comment": "2. PROPERTIES: Relationship Definition",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": ["relationship", "su1", "su2"],
+          "properties": {
+            "relationship": {
+              "description": "ISO 19125-2 topological predicate describing the required spatial relationship",
+              "type": "string",
+              "enum": [
+                "equals",
+                "disjoint",
+                "intersects",
+                "touches",
+                "crosses",
+                "within",
+                "contains",
+                "overlaps"
+              ]
+            },
+            
+            "su1": {
+              "description": "Reference to the first Spatial Unit (URI)",
+              "type": "string",
+              "format": "uri"
+            },
+            
+            "su2": {
+              "description": "Reference to the second Spatial Unit (URI)",
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "required": ["properties"]
+    }
+  ]
+}

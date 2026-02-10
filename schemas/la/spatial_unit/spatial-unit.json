@@ -25,15 +25,8 @@
 				},
 				"coordRefSys": {
 					"description": "Default CRS for the 'place' geometry (e.g., EPSG:3765)",
-					"type": "string"
-				},
-				"place": {
-					"description": "LADM Legal Geometry in National CRS. Supports 3D (Polyhedron) and 2D.",
-					"type": "object",
-					"required": [
-						"type",
-						"coordinates"
-					]
+					"type": "string",
+					"default": "urn:ogc:def:crs:EPSG::3765"
 				},
 				"properties": {
 					"type": "object",
@@ -72,11 +65,11 @@
 						},
 						"referencePoint": {
 							"description": "LA_SpatialUnit reference point",
-							"$ref": "https://geojson.org/schema/Point.json"
+							"$ref": "https://beta.schemas.opengis.net/json-fg/geometry-object#/$defs/Point"
 						},
 						"landUse": {
 							"description": "Reference to Land Use CodeList (e.g. SKOS concept)",
-							"$ref": "#/$defs/CodeListRef"
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
 						},
 						"spatialSource": {
 							"description": "Reference to LA_SpatialSource (Survey/Document)",
@@ -94,7 +87,71 @@
 				"place",
 				"properties"
 			]
-		}
+		},
+		{
+      "$comment": "--- RULE: 2D DIMENSION ENFORCEMENT ---",
+      "if": {
+        "properties": {
+          "properties": {
+            "properties": {
+              "dimension": { "const": "2D" }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "place": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "description": "If dimension is 2D, only flat geometries are allowed.",
+                "type": "string",
+                "enum": [
+                  "Point", "MultiPoint", 
+                  "LineString", "MultiLineString", 
+                  "Polygon", "MultiPolygon"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    {
+      "$comment": "--- RULE: 3D DIMENSION ENFORCEMENT ---",
+      "if": {
+        "properties": {
+          "properties": {
+            "properties": {
+              "dimension": { "const": "3D" }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "place": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "description": "If dimension is 3D, only volumetric geometries are allowed.",
+                "type": "string",
+                "enum": [
+                  "Polyhedron", 
+                  "MultiPolyhedron", 
+                  "Prism", 
+                  "MultiPrism"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
 	],
 	"$defs": {
 		"LA_AreaValue": {
@@ -129,21 +186,6 @@
 				"measurement",
 				"type",
 				"uom"
-			]
-		},
-		"CodeListRef": {
-			"type": "object",
-			"properties": {
-				"href": {
-					"type": "string",
-					"format": "uri"
-				},
-				"label": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"href"
 			]
 		},
 		"SourceRef": {

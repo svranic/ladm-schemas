@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/level.json",
+  "title": "LADM LA_Level",
+  "description": "Defines a set of spatial units with the same geometric/topologic structure",
+
+  "allOf": [
+    {
+      "$comment": "1. INHERITANCE: Is a Versioned Object (History)",
+      "$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+    },
+    {
+      "$comment": "2. PROPERTIES: Level definition",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": ["lID", "name", "registerType", "structure"],
+          "properties": {
+            "lID": {
+              "description": "LADM Oid",
+              "$ref": "../core/datatypes.json#/$defs/Oid"
+            },
+            
+            "name": {
+              "description": "Name of the level (e.g., 'Parcels', 'Buildings')",
+              "type": "string"
+            },
+            
+            "registerType": {
+              "description": "CodeList: Type of register (e.g., rural, urban, mining)",
+              "$ref": "../core/datatypes.json#/$defs/CodeListRef"
+            },
+            
+            "structure": {
+              "description": "CodeList: The topological structure of the units in this level",
+              "type": "object",
+              "properties": {
+                "href": { "type": "string", "format": "uri" },
+                "value": {
+                   "type": "string",
+                   "enum": ["point", "line", "polygon", "unstructuredLine", "sketch", "topological"]
+                }
+              }
+            },
+            
+            "type": {
+              "description": "CodeList: The content type (e.g., primaryRight, easement)",
+              "$ref": "../core/datatypes.json#/$defs/CodeListRef"
+            }
+          }
+        }
+      },
+      "required": ["properties"]
+    }
+  ]
+}

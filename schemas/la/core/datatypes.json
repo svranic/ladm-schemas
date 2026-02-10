@@ -15,7 +15,25 @@
 					"type": "string"
 				}
 			},
-			"required": ["localId", "namespace"]
+			"required": [
+				"localId",
+				"namespace"
+			]
+		},
+		"CodeListRef": {
+			"type": "object",
+			"properties": {
+				"href": {
+					"type": "string",
+					"format": "uri"
+				},
+				"label": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"href"
+			]
 		},
 		"LA_AvailabilityStatusType": {
 			"description": "LA_AvailabilityStatusType - The status of the document availability",
