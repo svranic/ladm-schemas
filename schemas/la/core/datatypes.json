@@ -1,0 +1,96 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://domena.hr/schemas/ladm/datatypes.json",
+	"title": "LADM Land Registration Module Shared Datatypes",
+	"description": "Biblioteka zajedničkih tipova podataka (ISO 19115, ISO 19107, itd.)",
+	"$defs": {
+		"CI_ResponsibleParty": {
+			"type": "object",
+			"description": "Implementacija ISO 19115 CI_ResponsibleParty",
+			"properties": {
+				"organisationName": {
+					"type": "string"
+				},
+				"individualName": {
+					"type": "string"
+				},
+				"role": {
+					"type": "string",
+					"enum": [
+						"resourceProvider",
+						"custodian",
+						"owner",
+						"user",
+						"distributor",
+						"originator",
+						"pointOfContact",
+						"principalInvestigator",
+						"processor",
+						"publisher",
+						"author"
+					]
+				},
+				"contactInfo": {
+					"type": "object",
+					"properties": {
+						"email": {
+							"type": "string",
+							"format": "email"
+						},
+						"phone": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"required": [
+				"organisationName",
+				"role"
+			]
+		},
+		"DQ_Quality": {
+			"type": "object",
+			"description": "Implementacija ISO 19115 DQ_Element",
+			"properties": {
+				"type": {
+					"type": "string",
+					"description": "Naziv podklase kvalitete (npr. PositionalAccuracy)",
+					"enum": [
+						"DQ_AbsoluteExternalPositionalAccuracy",
+						"DQ_RelativeInternalPositionalAccuracy",
+						"DQ_CompletenessCommission"
+					]
+				},
+				"result": {
+					"type": "object",
+					"description": "Kvantitativni rezultat (DQ_QuantitativeResult)",
+					"properties": {
+						"value": {
+							"type": "number"
+						},
+						"unit": {
+							"type": "string",
+							"enum": [
+								"m",
+								"cm",
+								"mm"
+							]
+						}
+					},
+					"required": [
+						"value",
+						"unit"
+					]
+				},
+				"lineage": {
+					"type": "string",
+					"description": "Tekstualni opis LI_Lineage (kako je podatak nastao)"
+				}
+			},
+			"required": [
+				"type",
+				"result"
+			]
+		}
+	}
+}

@@ -1,0 +1,103 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://domena.hr/schemas/ladm/source.json",
+	"title": "LADM LA_Source class definition",
+	"description": "The abstract class to provide support for sources. It has two subclasses: LA_AdministrativeSource and LA_SpatialSource.",
+	"type": "object",
+	"properties": {
+		"sID": {
+			"description": "LADM Oid - Jedinstveni identifikator izvora",
+			"type": "string"
+		},
+		"availabilityStatus": {
+			"description": "LA_AvailabilityStatusType - Status dostupnosti dokumenta",
+			"type": "string",
+			"enum": [
+				"docAvailable",
+				"docNotAvailable",
+				"incomplete",
+				"unknown"
+			],
+			"default": "docAvailable"
+		},
+		"maintype": {
+			"description": "CI_PresentationFormCode (ISO 19115) - Oblik prezentacije",
+			"type": "string",
+			"enum": [
+				"documentDigital",
+				"documentHardcopy",
+				"mapDigital",
+				"mapHardcopy",
+				"tableDigital",
+				"tableHardcopy",
+				"videoDigital",
+				"audioDigital",
+				"multimediaDigital"
+			]
+		},
+		"submission": {
+			"description": "Datum i vrijeme podnošenja dokumenta",
+			"type": "string",
+			"format": "date-time"
+		},
+		"acceptance": {
+			"description": "Datum i vrijeme prihvaćanja dokumenta",
+			"type": "string",
+			"format": "date-time"
+		},
+		"recordation": {
+			"description": "Datum i vrijeme službenog upisa (knjiženja)",
+			"type": "string",
+			"format": "date-time"
+		},
+		"lifeSpanStamp": {
+			"description": "Vrijeme životnog vijeka objekta u bazi",
+			"type": "string",
+			"format": "date-time"
+		},
+		"extArchiveID": {
+			"description": "Referenca na vanjski arhiv (ExtArchive)",
+			"$ref": "#/$defs/ExtArchive"
+		},
+		"quality": {
+			"type": "array",
+			"items": {"$ref": "datatypes.json#/$defs/DQ_Quality"}
+		},
+		"source": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{
+						"$ref": "datatypes.json#/$defs/CI_ResponsibleParty"
+					},
+					{
+						"type": "string",
+						"format": "uri-reference"
+					}
+				]
+			}
+		}
+	},
+	"required": [
+		"sID",
+		"availabilityStatus"
+	],
+	"$defs": {
+		"ExtArchive": {
+			"type": "object",
+			"description": "Struktura za vanjski arhiv",
+			"properties": {
+				"archiveID": {
+					"type": "string"
+				},
+				"acceptanceDate": {
+					"type": "string",
+					"format": "date"
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
