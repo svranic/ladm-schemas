@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/svranic/ladm-schemas/la/core/versioned-object.json",
+  "title": "LADM VersionedObject",
+  "description": "Abstract class for objects with history/lifespan management mapped to JSON-FG structures",
+  "$defs": {
+    "SourceReference": {
+      "description": "A reference to an LA_Source object. Can be a URI link or the full embedded object.",
+      "oneOf": [
+        {
+          "title": "Reference Link",
+          "description": "URI pointing to the source document (e.g., API endpoint)",
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "title": "Embedded Source",
+          "description": "Full LA_Source object embedded directly",
+          "$ref": "source.json#/$defs/LA_Source"
+        }
+      ]
+    },
+    "VersionedObject": {
+      "type": "object",
+      "description": "Mixin that enforces temporal properties on a Feature",
+      "properties": {
+        "lifespanVersion": {
+          "description": "Maps LADM beginLifespanVersion and endLifespanVersion to JSON-FG temporal interval",
+          "type": "object",
+          "properties": {
+            "interval": {
+              "type": "array",
+              "description": "[beginLifespanVersion, endLifespanVersion] - ISO 8601 timestamps",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": ["string", "null"],
+                "format": "date-time"
+              }
+            }
+          },
+          "required": ["interval"]
+        },
+        "realWorldLifespanVersion": {
+          "description": "Maps LADM beginRealWorldLifespanVersion and endRealWorldLifespanVersion to JSON-FG temporal interval",
+          "type": "object",
+          "properties": {
+            "interval": {
+              "type": "array",
+              "description": "[beginRealWorldLifespanVersion, endRealWorldLifespanVersion] - ISO 8601 timestamps",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": ["string", "null"],
+                "format": "date-time"
+              }
+            }
+          },
+          "required": ["interval"]
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "quality": {
+              "description": "LADM Quality attribute (DQ_Element)",
+              "$ref": "datatypes.json#/$defs/DQ_Quality"
+            },
+            
+            "beginLifespanSource": {
+              "description": "The source document that initiated this version (creates the beginLifespanVersion)",
+              "$ref": "#/$defs/SourceReference"
+            },
+            
+            "endLifespanSource": {
+              "description": "The source document that retired this version (creates the endLifespanVersion)",
+              "$ref": "#/$defs/SourceReference"
+            }
+          }
+        }
+      }
+    }
+  }
+}

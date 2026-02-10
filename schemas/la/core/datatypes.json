@@ -1,12 +1,36 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://domena.hr/schemas/ladm/datatypes.json",
+	"$id": "https://github.com/svranic/ladm-schemas/la/core/datatypes.json",
 	"title": "LADM Land Registration Module Shared Datatypes",
-	"description": "Biblioteka zajedničkih tipova podataka (ISO 19115, ISO 19107, itd.)",
+	"description": "Common data types (ISO 19115, ISO 19107)",
 	"$defs": {
+		"Oid": {
+			"type": "object",
+			"description": "Basic definition of Oid",
+			"properties": {
+				"localId": {
+					"type": "string"
+				},
+				"namespace": {
+					"type": "string"
+				}
+			},
+			"required": ["localId", "namespace"]
+		},
+		"LA_AvailabilityStatusType": {
+			"description": "LA_AvailabilityStatusType - The status of the document availability",
+			"type": "string",
+			"enum": [
+				"docAvailable",
+				"docNotAvailable",
+				"incomplete",
+				"unknown"
+			],
+			"default": "docAvailable"
+		},
 		"CI_ResponsibleParty": {
 			"type": "object",
-			"description": "Implementacija ISO 19115 CI_ResponsibleParty",
+			"description": "Implementation of ISO 19115 class CI_ResponsibleParty",
 			"properties": {
 				"organisationName": {
 					"type": "string"
@@ -50,11 +74,11 @@
 		},
 		"DQ_Quality": {
 			"type": "object",
-			"description": "Implementacija ISO 19115 DQ_Element",
+			"description": "Implementation of ISO 19115 class DQ_Element",
 			"properties": {
 				"type": {
 					"type": "string",
-					"description": "Naziv podklase kvalitete (npr. PositionalAccuracy)",
+					"description": "The name of the subclass of quality (e.g. PositionalAccuracy)",
 					"enum": [
 						"DQ_AbsoluteExternalPositionalAccuracy",
 						"DQ_RelativeInternalPositionalAccuracy",
@@ -63,7 +87,7 @@
 				},
 				"result": {
 					"type": "object",
-					"description": "Kvantitativni rezultat (DQ_QuantitativeResult)",
+					"description": "Quantitative result (DQ_QuantitativeResult)",
 					"properties": {
 						"value": {
 							"type": "number"
@@ -84,7 +108,7 @@
 				},
 				"lineage": {
 					"type": "string",
-					"description": "Tekstualni opis LI_Lineage (kako je podatak nastao)"
+					"description": "Textual description LI_Lineage (the origin of the data)"
 				}
 			},
 			"required": [

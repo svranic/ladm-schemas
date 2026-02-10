@@ -1,0 +1,170 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/svranic/ladm-schemas/la/spatial_unit/spatial-unit.json",
+	"title": "LADM LA_SpatialUnit Profile (JSON-FG)",
+	"description": "Implementation of LADM Spatial Unit package extending OGC Features and Geometries JSON",
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Extends the official OGC JSON-FG Feature Schema",
+			"$ref": "https://beta.schemas.opengis.net/json-fg/feature.json"
+		},
+		{
+			"$comment": "2. INHERITANCE: Extends LADM VersionedObject (Relative path to core)",
+			"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "3. CONSTRAINTS & EXTENSIONS: Spatial Unit specific properties",
+			"type": "object",
+			"properties": {
+				"type": {
+					"const": "Feature"
+				},
+				"featureType": {
+					"const": "LA_SpatialUnit",
+					"description": "Discriminator to identify this as a Cadastral Spatial Unit"
+				},
+				"coordRefSys": {
+					"description": "Default CRS for the 'place' geometry (e.g., EPSG:3765)",
+					"type": "string"
+				},
+				"place": {
+					"description": "LADM Legal Geometry in National CRS. Supports 3D (Polyhedron) and 2D.",
+					"type": "object",
+					"required": [
+						"type",
+						"coordinates"
+					]
+				},
+				"properties": {
+					"type": "object",
+					"required": [
+						"suID",
+						"dimension",
+						"area"
+					],
+					"properties": {
+						"suID": {
+							"description": "LADM Oid (Namespace + LocalId)",
+							"type": "string"
+						},
+						"label": {
+							"description": "Cartographic label (e.g. parcel number '123/1')",
+							"type": "string"
+						},
+						"dimension": {
+							"description": "LA_DimensionType",
+							"type": "string",
+							"enum": [
+								"0D",
+								"1D",
+								"2D",
+								"3D",
+								"liminal"
+							]
+						},
+						"area": {
+							"description": "LA_AreaValue [0..*]",
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/LA_AreaValue"
+							},
+							"minItems": 1
+						},
+						"referencePoint": {
+							"description": "LA_SpatialUnit reference point",
+							"$ref": "https://geojson.org/schema/Point.json"
+						},
+						"landUse": {
+							"description": "Reference to Land Use CodeList (e.g. SKOS concept)",
+							"$ref": "#/$defs/CodeListRef"
+						},
+						"spatialSource": {
+							"description": "Reference to LA_SpatialSource (Survey/Document)",
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/SourceRef"
+							}
+						}
+					}
+				}
+			},
+			"required": [
+				"type",
+				"featureType",
+				"place",
+				"properties"
+			]
+		}
+	],
+	"$defs": {
+		"LA_AreaValue": {
+			"type": "object",
+			"description": "Structured Area with UCUM units",
+			"properties": {
+				"measurement": {
+					"type": "number",
+					"exclusiveMinimum": 0
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"officialArea",
+						"calculatedArea",
+						"surveyedArea"
+					],
+					"default": "officialArea"
+				},
+				"uom": {
+					"type": "string",
+					"description": "Unified Code for Units of Measure (UCUM)",
+					"enum": [
+						"m2",
+						"har",
+						"km2"
+					],
+					"default": "m2"
+				}
+			},
+			"required": [
+				"measurement",
+				"type",
+				"uom"
+			]
+		},
+		"CodeListRef": {
+			"type": "object",
+			"properties": {
+				"href": {
+					"type": "string",
+					"format": "uri"
+				},
+				"label": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"href"
+			]
+		},
+		"SourceRef": {
+			"description": "Reference to an LA_SpatialSource",
+			"oneOf": [
+				{
+					"type": "string",
+					"format": "uri"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"sourceID": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"sourceID"
+					]
+				}
+			]
+		}
+	}
+}
