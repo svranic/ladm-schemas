@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://github.com/svranic/ladm-schemas/la/core/datatypes.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/datatypes.json",
 	"title": "LADM Land Registration Module Shared Datatypes",
 	"description": "Common data types (ISO 19115, ISO 19107)",
 	"$defs": {

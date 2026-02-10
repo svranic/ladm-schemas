@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/svranic/ladm-schemas/la/core/source.json",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/source.json",
   "title": "LADM LA_Source class definition",
   "description": "The abstract class to provide support for sources. It has two subclasses: LA_AdministrativeSource and LA_SpatialSource.",
   

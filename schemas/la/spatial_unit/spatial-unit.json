@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://github.com/svranic/ladm-schemas/la/spatial_unit/spatial-unit.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/spatial-unit.json",
 	"title": "LADM LA_SpatialUnit Profile (JSON-FG)",
 	"description": "Implementation of LADM Spatial Unit package extending OGC Features and Geometries JSON",
 	"allOf": [
