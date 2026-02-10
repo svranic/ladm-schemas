@@ -21,20 +21,22 @@
 			]
 		},
 		"CodeListRef": {
-		  "description": "Pattern for referencing external CodeLists (SKOS/RDF)",
-		  "type": "object",
-		  "properties": {
-			"href": { 
-			  "type": "string", 
-			  "format": "uri",
-			  "description": "URI to the specific code definition"
+			"description": "Pattern for referencing external CodeLists (SKOS/RDF)",
+			"type": "object",
+			"properties": {
+				"href": {
+					"type": "string",
+					"format": "uri",
+					"description": "URI to the specific code definition"
+				},
+				"label": {
+					"type": "string",
+					"description": "Human-readable label (optional)"
+				}
 			},
-			"label": { 
-			  "type": "string",
-			  "description": "Human-readable label (optional)"
-			}
-		  },
-		  "required": ["href"]
+			"required": [
+				"href"
+			]
 		},
 		"LA_AvailabilityStatusType": {
 			"description": "LA_AvailabilityStatusType - The status of the document availability",

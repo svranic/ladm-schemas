@@ -89,69 +89,79 @@
 			]
 		},
 		{
-      "$comment": "--- RULE: 2D DIMENSION ENFORCEMENT ---",
-      "if": {
-        "properties": {
-          "properties": {
-            "properties": {
-              "dimension": { "const": "2D" }
-            }
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "place": {
-            "type": "object",
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "description": "If dimension is 2D, only flat geometries are allowed.",
-                "type": "string",
-                "enum": [
-                  "Point", "MultiPoint", 
-                  "LineString", "MultiLineString", 
-                  "Polygon", "MultiPolygon"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    
-    {
-      "$comment": "--- RULE: 3D DIMENSION ENFORCEMENT ---",
-      "if": {
-        "properties": {
-          "properties": {
-            "properties": {
-              "dimension": { "const": "3D" }
-            }
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "place": {
-            "type": "object",
-            "required": ["type"],
-            "properties": {
-              "type": {
-                "description": "If dimension is 3D, only volumetric geometries are allowed.",
-                "type": "string",
-                "enum": [
-                  "Polyhedron", 
-                  "MultiPolyhedron", 
-                  "Prism", 
-                  "MultiPrism"
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
+			"$comment": "--- RULE: 2D DIMENSION ENFORCEMENT ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"dimension": {
+								"const": "2D"
+							}
+						}
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"place": {
+						"type": "object",
+						"required": [
+							"type"
+						],
+						"properties": {
+							"type": {
+								"description": "If dimension is 2D, only flat geometries are allowed.",
+								"type": "string",
+								"enum": [
+									"Point",
+									"MultiPoint",
+									"LineString",
+									"MultiLineString",
+									"Polygon",
+									"MultiPolygon"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"$comment": "--- RULE: 3D DIMENSION ENFORCEMENT ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"dimension": {
+								"const": "3D"
+							}
+						}
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"place": {
+						"type": "object",
+						"required": [
+							"type"
+						],
+						"properties": {
+							"type": {
+								"description": "If dimension is 3D, only volumetric geometries are allowed.",
+								"type": "string",
+								"enum": [
+									"Polyhedron",
+									"MultiPolyhedron",
+									"Prism",
+									"MultiPrism"
+								]
+							}
+						}
+					}
+				}
+			}
+		}
 	],
 	"$defs": {
 		"LA_AreaValue": {

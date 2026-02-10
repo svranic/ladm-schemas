@@ -1,66 +1,72 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/spatial-unit-group.json",
-  "title": "LADM LA_SpatialUnitGroup Profile",
-  "description": "Represents a group of spatial units (e.g., administrative districts, zones)",
-
-  "allOf": [
-    {
-      "$comment": "1. INHERITANCE: Is a Geospatial Feature (JSON-FG)",
-      "$ref": "https://beta.schemas.opengis.net/json-fg/feature.json"
-    },
-    {
-      "$comment": "2. INHERITANCE: Is a Versioned Object (History)",
-      "$ref": "../core/versioned-object.json#/$defs/VersionedObject"
-    },
-    {
-      "$comment": "3. EXTENSIONS: Group specific properties",
-      "type": "object",
-      "properties": {
-        "type": { "const": "Feature" },
-        "featureType": { "const": "LA_SpatialUnitGroup" },
-        "properties": {
-          "type": "object",
-          "required": ["sugID", "hierarchyLevel", "label"],
-          "properties": {
-            "sugID": {
-              "description": "LADM Oid",
-              "$ref": "../core/datatypes.json#/$defs/Oid"
-            },
-            
-            "hierarchyLevel": {
-              "description": "Level in the hierarchy (e.g., 1=Country, 2=Region, 3=Municipality)",
-              "type": "integer",
-              "minimum": 0
-            },
-            
-            "label": {
-              "description": "Short label or code",
-              "type": "string"
-            },
-            
-            "name": {
-              "description": "Full name of the group",
-              "type": "string"
-            },
-            
-            "referencePoint": {
-              "description": "Center point or label point",
-              "$ref": "https://beta.schemas.opengis.net/json-fg/geometry-object#/$defs/Point"
-            },
-            
-            "element": {
-              "description": "List of URIs referencing the Spatial Units in this group",
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uri"
-              }
-            }
-          }
-        }
-      },
-      "required": ["type", "featureType", "properties"]
-    }
-  ]
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/spatial-unit-group.json",
+	"title": "LADM LA_SpatialUnitGroup Profile",
+	"description": "Represents a group of spatial units (e.g., administrative districts, zones)",
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Is a Geospatial Feature (JSON-FG)",
+			"$ref": "https://beta.schemas.opengis.net/json-fg/feature.json"
+		},
+		{
+			"$comment": "2. INHERITANCE: Is a Versioned Object (History)",
+			"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "3. EXTENSIONS: Group specific properties",
+			"type": "object",
+			"properties": {
+				"type": {
+					"const": "Feature"
+				},
+				"featureType": {
+					"const": "LA_SpatialUnitGroup"
+				},
+				"properties": {
+					"type": "object",
+					"required": [
+						"sugID",
+						"hierarchyLevel",
+						"label"
+					],
+					"properties": {
+						"sugID": {
+							"description": "LADM Oid",
+							"$ref": "../core/datatypes.json#/$defs/Oid"
+						},
+						"hierarchyLevel": {
+							"description": "Level in the hierarchy (e.g., 1=Country, 2=Region, 3=Municipality)",
+							"type": "integer",
+							"minimum": 0
+						},
+						"label": {
+							"description": "Short label or code",
+							"type": "string"
+						},
+						"name": {
+							"description": "Full name of the group",
+							"type": "string"
+						},
+						"referencePoint": {
+							"description": "Center point or label point",
+							"$ref": "https://beta.schemas.opengis.net/json-fg/geometry-object#/$defs/Point"
+						},
+						"element": {
+							"description": "List of URIs referencing the Spatial Units in this group",
+							"type": "array",
+							"items": {
+								"type": "string",
+								"format": "uri"
+							}
+						}
+					}
+				}
+			},
+			"required": [
+				"type",
+				"featureType",
+				"properties"
+			]
+		}
+	]
 }
