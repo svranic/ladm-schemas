@@ -136,6 +136,25 @@
 				"type",
 				"result"
 			]
+		},
+		"SourceRef": {
+			"description": "A reference to ANY type of LADM Source. Can be a URI or a full embedded object (Spatial or Admin).",
+			"oneOf": [
+				{
+					"title": "Reference by URI",
+					"type": "string",
+					"format": "uri",
+					"description": "Link to the source document (e.g. https://api.cadastre.gov.hr/sources/doc-123)"
+				},
+				{
+					"title": "Embedded Spatial Source",
+					"$ref": "./source/spatial-source.json"
+				},
+				{
+					"title": "Embedded Administrative Source",
+					"$ref": "./source/administrative-source.json"
+				}
+			]
 		}
 	}
 }

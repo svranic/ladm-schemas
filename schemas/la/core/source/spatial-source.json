@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/source/spatial-source.json",
+  "title": "LADM LA_SpatialSource",
+  "description": "Source with spatial reference (Survey Plan, GNSS measurement log)",
+  
+  "allOf": [
+    {
+      "$comment": "INHERITANCE: Inherits everything from the abstract LA_Source",
+      "$ref": "../core/source.json#/$defs/LA_Source"
+    },
+    {
+      "$comment": "EXTENSIONS: Specific properties for Spatial Source",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+             "type": {
+               "const": "spatialSource",
+               "description": "Discriminator to identify this object type"
+             },
+             "procedure": {
+               "description": "CI_PresentationFormCode or similar describing the survey procedure",
+               "type": "string"
+             },
+             "measurements": {
+               "description": "List of observations/measurements",
+               "type": "array",
+               "items": {
+                 "type": "object", 
+                 "description": "Placeholder for LA_Point/Observation structure"
+               }
+             }
+          },
+          "required": ["type"]
+        }
+      }
+    }
+  ]
+}
