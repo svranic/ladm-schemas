@@ -1,0 +1,68 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source/administrative-source.json",
+	"_description": "Process example: Real estate purchase/sale transaction. A notarial deed transfers ownership from seller to buyer. At submission time the new Right object has no persistent API endpoint — only a client-generated UUID. After cadastral acceptance the system assigns the permanent endpoint. The voided Right (seller's ownership) has an existing href.",
+
+	"sourceType": "administrativeSource",
+	"sID": {
+		"localId": "DOC-2024-00789",
+		"namespace": "HR.ZK.ZAGREB"
+	},
+	"availabilityStatus": "docAvailable",
+	"maintype": "documentDigital",
+	"type": {
+		"concepts": [
+			{
+				"id": "deed",
+				"title": "Notarial Deed of Sale",
+				"url": "https://cadastre.gov.hr/codelist/adminSourceType/deed"
+			}
+		],
+		"scheme": "https://cadastre.gov.hr/codelist/adminSourceType"
+	},
+	"submission": "2024-03-14T10:00:00Z",
+	"acceptance": "2024-03-14T14:30:00Z",
+	"recordation": "2024-03-15T08:00:00Z",
+	"extArchiveID": {
+		"archiveID": "OV-2024-0789",
+		"acceptanceDate": "2024-03-14",
+		"name": "Notarska pisarnica Horvat d.o.o. — arhiva 2024"
+	},
+	"source": [
+		{
+			"name": "Notarska pisarnica Horvat d.o.o.",
+			"roles": ["conveyancer"],
+			"organization": "Notarska pisarnica Horvat d.o.o.",
+			"emails": [{ "value": "office@notarhorvat.hr" }]
+		},
+		{
+			"name": "Ana Kovač",
+			"roles": ["owner"],
+			"identifier": "98765432109"
+		},
+		{
+			"name": "Ivan Horvat",
+			"roles": ["owner"],
+			"identifier": "12345678901"
+		}
+	],
+	"createdObjects": [
+		{
+			"featureType": "LA_Right",
+			"id": "c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+			"title": "Ownership right — Ivan Horvat (buyer, new owner)"
+		},
+		{
+			"featureType": "LA_Party",
+			"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+			"title": "Party record — Ivan Horvat"
+		}
+	],
+	"voidedObjects": [
+		{
+			"featureType": "LA_Right",
+			"id": "d6ee402h-be2c-6bbb-c245-dfg7h9876335",
+			"href": "https://api.cadastre.gov.hr/collections/rights/items/d6ee402h-be2c-6bbb-c245-dfg7h9876335",
+			"title": "Ownership right — Ana Kovač (seller, previous owner)"
+		}
+	]
+}

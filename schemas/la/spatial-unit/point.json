@@ -1,0 +1,83 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/point.json",
+	"title": "LADM LA_Point",
+	"description": "A surveyed boundary point or building corner that has been officially registered in the cadastre. LA_Point extends LA_Feature — the 'place' geometry must be a Point in the survey CRS (e.g. HTRS96/TM). Only final adjusted coordinates are stored here; raw measurements and auxiliary points remain in the LA_SpatialSource assets.",
+
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Extends LA_Feature base (JSON-FG 1.0.0 + VersionedObject)",
+			"$ref": "../core/feature.json"
+		},
+		{
+			"$comment": "2. CONSTRAINTS: LA_Point specific properties",
+			"type": "object",
+			"properties": {
+				"featureType": {
+					"const": "LA_Point",
+					"description": "Discriminator identifying this as a registered cadastral point"
+				},
+				"place": {
+					"type": "object",
+					"required": ["type"],
+					"properties": {
+						"type": {
+							"const": "Point",
+							"description": "LA_Point geometry must be a single Point"
+						}
+					}
+				},
+				"properties": {
+					"type": "object",
+					"required": ["ptID", "pointType"],
+					"properties": {
+						"ptID": {
+							"description": "LADM domain identifier (namespace + localId)",
+							"$ref": "../core/datatypes.json#/$defs/Oid"
+						},
+						"pointType": {
+							"description": "LA_PointType codelist. Common values: boundary (parcel corner), building (building corner), road (road centreline point).",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"monumentation": {
+							"description": "Type of physical boundary monument (e.g. concreteMonument, ironPeg, naturalObject, unmarked).",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"state": {
+							"description": "LA_PointStatusType — registration state of this point (e.g. set, found, replaced, removed).",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"accuracy": {
+							"description": "Positional accuracy of this point (DQ_AbsoluteExternalPositionalAccuracy)",
+							"$ref": "../core/datatypes.json#/$defs/DQ_Quality"
+						},
+						"spatialSource": {
+							"description": "Reference to the LA_SpatialSource (survey) that established this point",
+							"$ref": "../core/datatypes.json#/$defs/SourceRef"
+						},
+						"lifespanVersion": {
+							"description": "System/database lifespan of this point version",
+							"type": "object",
+							"properties": {
+								"interval": {
+									"type": "array",
+									"minItems": 2,
+									"maxItems": 2,
+									"items": {
+										"oneOf": [
+											{ "type": "string", "format": "date-time" },
+											{ "type": "string", "format": "date" },
+											{ "type": "string", "const": ".." }
+										]
+									}
+								}
+							},
+							"required": ["interval"]
+						}
+					}
+				}
+			},
+			"required": ["featureType", "place", "properties"]
+		}
+	]
+}

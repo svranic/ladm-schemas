@@ -1,0 +1,282 @@
+# LADM Core SHACL Shapes
+# =============================================================================
+# Complements JSON Schema validation (structure) with semantic validation on
+# the RDF graph produced by applying contexts/ladm-context.jsonld.
+#
+# JSON Schema enforces: types, required fields, enum values, if/then per feature.
+# SHACL enforces: referential integrity across features, cardinality of typed
+# properties, PROV lineage rules, and constraints that span multiple objects in
+# the same graph.
+#
+# Context requirement: contexts/ladm-context.jsonld must include
+#   "properties": "@nest"
+# so that feature attributes are lifted from the GeoJSON properties bag directly
+# onto the feature node in RDF, enabling sh:path expressions without traversal.
+#
+# Run:
+#   pip install pyshacl
+#   pyshacl -s validation/shacl/ladm-core.shacl.ttl \
+#           --extra-ont contexts/ladm-context.jsonld  \
+#           examples/valid/package-split-parcel.jsonld
+#
+# Or against a JSON-LD file converted from the JSON examples:
+#   pyshacl -s validation/shacl/ladm-core.shacl.ttl \
+#           -df json-ld data.json
+# =============================================================================
+
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix ladm:    <http://def.isotc211.org/iso19152/2012/LandAdministration#> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix jsonfg:  <http://www.opengis.net/doc/IS/json-fg/1.0#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ── SPARQL prefix declarations (reused by sh:sparql constraints below) ────────
+
+<#prefixes>
+    sh:declare [ sh:prefix "ladm"   ; sh:namespace "http://def.isotc211.org/iso19152/2012/LandAdministration#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "prov"   ; sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "jsonfg" ; sh:namespace "http://www.opengis.net/doc/IS/json-fg/1.0#"^^xsd:anyURI ] .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 1. VersionedObject — lifecycle and PROV lineage
+#    Applies to ALL LADM features (every LADM class extends VersionedObject).
+#    Targeted by sh:targetSubjectsOf jsonfg:featureType — any node that carries
+#    a featureType annotation is an LADM VersionedObject instance.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ladm:VersionedObjectShape
+    a sh:NodeShape ;
+    sh:name "VersionedObject lifecycle and PROV" ;
+    sh:description "Lifecycle integrity and W3C PROV alignment for all LADM objects." ;
+
+    # Targets every node that has jsonfg:featureType — i.e. every LADM feature.
+    # This is the RDF equivalent of "implements VersionedObject".
+    sh:targetSubjectsOf jsonfg:featureType ;
+
+    # ── beginLifespanSource ──────────────────────────────────────────────────
+    # prov:wasGeneratedBy alignment.
+    # JSON Schema enforces presence when lifespanVersion is set (co-occurrence).
+    # SHACL adds: cardinality (at most one) and node kind (must be an IRI).
+    sh:property [
+        sh:path     ladm:VersionedObject.beginLifespanSource ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:name     "beginLifespanSource" ;
+        sh:message  "beginLifespanSource must be a single IRI referencing an LA_Source (prov:wasGeneratedBy)." ;
+    ] ;
+
+    # ── endLifespanSource ────────────────────────────────────────────────────
+    # prov:wasInvalidatedBy alignment.
+    sh:property [
+        sh:path     ladm:VersionedObject.endLifespanSource ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:name     "endLifespanSource" ;
+        sh:message  "endLifespanSource must be a single IRI referencing an LA_Source (prov:wasInvalidatedBy)." ;
+    ] ;
+
+    # ── derivedFrom (prov:wasDerivedFrom) ────────────────────────────────────
+    # Added to VersionedObject in this schema release for cadastral mutations.
+    # Each item must be an IRI — cannot be an anonymous blank node.
+    sh:property [
+        sh:path     prov:wasDerivedFrom ;
+        sh:nodeKind sh:IRI ;
+        sh:name     "derivedFrom" ;
+        sh:message  "Each derivedFrom entry must be a resolvable IRI identifying an LADM VersionedObject." ;
+    ] ;
+
+    # ── revisedFrom (prov:wasRevisionOf) ─────────────────────────────────────
+    # At most one — a feature can only be a revision of one immediate predecessor.
+    sh:property [
+        sh:path     prov:wasRevisionOf ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:name     "revisedFrom" ;
+        sh:message  "revisedFrom (prov:wasRevisionOf) must reference a single predecessor IRI." ;
+    ] ;
+
+    # ── SPARQL: derivedFrom and revisedFrom are mutually exclusive ────────────
+    # derivedFrom = cadastral mutation (new identity); revisedFrom = same object updated.
+    # JSON Schema cannot express this mutual exclusion across two separate properties.
+    sh:sparql [
+        sh:name     "derivedFrom-revisedFrom-exclusive" ;
+        sh:message  "A feature must use either derivedFrom (identity-changing mutation: split/merge) or revisedFrom (same-object update: resurvey, correction) — not both." ;
+        sh:prefixes <#prefixes> ;
+        sh:select   """
+            SELECT $this WHERE {
+                $this prov:wasDerivedFrom ?d ;
+                      prov:wasRevisionOf  ?r .
+            }
+        """ ;
+    ] .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2. LA_SpatialUnit — cardinality and representation type
+#    JSON Schema enforces the if/then geometry-vs-topology-vs-text rule per
+#    document. SHACL enforces it on the RDF graph and adds suID cardinality.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ladm:LA_SpatialUnitShape
+    a sh:NodeShape ;
+    sh:name "LA_SpatialUnit" ;
+
+    # SPARQL target: any node whose featureType is "LA_SpatialUnit"
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:prefixes <#prefixes> ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this jsonfg:featureType "LA_SpatialUnit" .
+            }
+        """ ;
+    ] ;
+
+    # ── suID: exactly one ────────────────────────────────────────────────────
+    sh:property [
+        sh:path     ladm:LA_SpatialUnit.suID ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message  "Every LA_SpatialUnit must have exactly one suID." ;
+    ] ;
+
+    # ── dimension: controlled vocabulary ─────────────────────────────────────
+    sh:property [
+        sh:path ladm:LA_SpatialUnit.dimension ;
+        sh:maxCount 1 ;
+        sh:in   ( "2D" "3D" "3D-volumetric" ) ;
+        sh:message "dimension must be '2D', '3D', or '3D-volumetric'." ;
+    ] ;
+
+    # ── representationType: required, controlled vocabulary ───────────────────
+    sh:property [
+        sh:path     ladm:LA_SpatialUnit.representationType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in       ( "geometrical" "topological" "textual" ) ;
+        sh:message  "representationType must be exactly one of 'geometrical', 'topological', 'textual'." ;
+    ] ;
+
+    # ── SPARQL: geometrical representation requires place ─────────────────────
+    # JSON Schema handles this via if/then on the JSON document.
+    # This SHACL constraint re-expresses it at the RDF level, catching it after
+    # any transformation that strips conditional schema annotations.
+    sh:sparql [
+        sh:name     "geometrical-requires-place" ;
+        sh:message  "representationType is 'geometrical' but jsonfg:place is absent or null. A geometrical spatial unit must carry an explicit coordinate geometry." ;
+        sh:prefixes <#prefixes> ;
+        sh:select   """
+            SELECT $this WHERE {
+                $this ladm:LA_SpatialUnit.representationType "geometrical" .
+                FILTER NOT EXISTS {
+                    $this jsonfg:place ?place .
+                }
+            }
+        """ ;
+    ] .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 3. LA_BoundaryFaceString — adjacency rule
+#    A BFS must encode at least one side of the boundary. This cannot be
+#    expressed in JSON Schema without a custom keyword or if/then duplication.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ladm:LA_BoundaryFaceStringShape
+    a sh:NodeShape ;
+    sh:name "LA_BoundaryFaceString adjacency" ;
+
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:prefixes <#prefixes> ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this jsonfg:featureType "LA_BoundaryFaceString" .
+            }
+        """ ;
+    ] ;
+
+    # At least one of leftUnit or rightUnit must be present.
+    # Expressed as a SPARQL constraint for clarity (equivalent to sh:or but
+    # produces a single, readable violation message).
+    sh:sparql [
+        sh:name     "adjacency-at-least-one-unit" ;
+        sh:message  "A BoundaryFaceString must carry at least one of leftUnit or rightUnit to express which spatial unit(s) it bounds. A BFS that borders only external territory (sea, administrative boundary) may have just one side." ;
+        sh:prefixes <#prefixes> ;
+        sh:select   """
+            SELECT $this WHERE {
+                FILTER NOT EXISTS { $this ladm:LA_BoundaryFaceString.leftUnit  ?l }
+                FILTER NOT EXISTS { $this ladm:LA_BoundaryFaceString.rightUnit ?r }
+            }
+        """ ;
+    ] .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 4. PROV derivation integrity — cross-feature constraint
+#    When a predecessor feature is materially present in the same RDF graph
+#    (not just referenced by URI), it must have endLifespanSource set — i.e. it
+#    was formally voided by the same cadastral process that created the successor.
+#    JSON Schema cannot express this: it validates a single document in isolation
+#    and has no access to the predecessor feature's properties.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ladm:DerivationIntegrityShape
+    a sh:NodeShape ;
+    sh:name "PROV derivation integrity" ;
+    sh:description "Closed-world check: if a derivedFrom predecessor is in this graph, it must be formally voided." ;
+
+    # Targets any feature node that asserts prov:wasDerivedFrom
+    sh:targetSubjectsOf prov:wasDerivedFrom ;
+
+    sh:sparql [
+        sh:name     "predecessor-must-be-voided" ;
+        sh:message  "Feature {?predecessor} is referenced by derivedFrom and is present in this graph, but has no endLifespanSource. The survey/administrative process that creates successors must simultaneously void all predecessors by setting endLifespanSource." ;
+        sh:prefixes <#prefixes> ;
+        sh:select   """
+            SELECT $this ?predecessor WHERE {
+                $this prov:wasDerivedFrom ?predecessor .
+                # Only validate predecessors that are materially present in this
+                # graph (not just referenced by URI from an external system).
+                ?predecessor jsonfg:featureType ?t .
+                FILTER NOT EXISTS {
+                    ?predecessor ladm:VersionedObject.endLifespanSource ?src .
+                }
+            }
+        """ ;
+    ] .
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 5. LA_Source integrity
+#    An LA_Source must not be its own creator (circular provenance).
+#    This is a simple semantic guard impossible to express in JSON Schema.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ladm:LA_SourceShape
+    a sh:NodeShape ;
+    sh:name "LA_Source non-circular provenance" ;
+
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:prefixes <#prefixes> ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this jsonfg:featureType ?t .
+                FILTER( ?t = "LA_Source" || ?t = "LA_SpatialSource" || ?t = "LA_AdministrativeSource" )
+            }
+        """ ;
+    ] ;
+
+    sh:sparql [
+        sh:name     "source-not-self-creating" ;
+        sh:message  "An LA_Source cannot be its own creator: beginLifespanSource must not reference this same source." ;
+        sh:prefixes <#prefixes> ;
+        sh:select   """
+            SELECT $this WHERE {
+                $this ladm:VersionedObject.beginLifespanSource $this .
+            }
+        """ ;
+    ] .

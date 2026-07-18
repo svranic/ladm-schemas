@@ -1,0 +1,94 @@
+﻿{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"type": "Feature",
+	"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+	"featureType": "LA_SpatialUnit",
+	"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+	"place": {
+		"type": "Polygon",
+		"coordinates": [
+			[
+				[552100.00, 4981200.00],
+				[552155.00, 4981200.00],
+				[552155.00, 4981150.00],
+				[552100.00, 4981150.00],
+				[552100.00, 4981200.00]
+			]
+		]
+	},
+	"geometry": {
+		"type": "Polygon",
+		"coordinates": [
+			[
+				[15.9871, 44.9523],
+				[15.9878, 44.9523],
+				[15.9878, 44.9519],
+				[15.9871, 44.9519],
+				[15.9871, 44.9523]
+			]
+		]
+	},
+	"time": {
+		"interval": ["2024-03-15T00:00:00Z", ".."]
+	},
+	"properties": {
+		"suID": "HR.DGU.CGP/5678-90123",
+		"label": "5678/1",
+		"dimension": "2D",
+		"representationType": "geometrical",
+		"area": [
+			{
+				"measurement": 2750.0,
+				"type": "officialArea",
+				"uom": {
+					"concepts": [
+						{
+							"id": "M2",
+							"title": "Square Metre",
+							"url": "http://qudt.org/vocab/unit/M2"
+						}
+					],
+					"scheme": "https://qudt.org/vocab/unit/"
+				}
+			}
+		],
+		"landUse": {
+			"concepts": [
+				{
+					"id": "3_1_AgriculturalUse",
+					"title": "Agricultural use",
+					"url": "https://inspire.ec.europa.eu/codelist/HILUCSValue/3_1_AgriculturalUse"
+				}
+			],
+			"scheme": "https://inspire.ec.europa.eu/codelist/HILUCSValue"
+		},
+		"spatialSource": [
+			{
+				"sourceType": "spatialSource",
+				"sID": {
+					"localId": "SP-2024-00456",
+					"namespace": "HR.DGU.CGP"
+				},
+				"availabilityStatus": "docAvailable",
+				"procedure": "GNSS",
+				"assets": {
+					"survey-plan": {
+						"href": "https://storage.cadastre.gov.hr/surveys/SP-2024-00456.pdf",
+						"type": "application/pdf",
+						"title": "Survey Plan SP-2024-00456",
+						"roles": ["overview"]
+					},
+					"gnss-raw": {
+						"href": "https://storage.cadastre.gov.hr/surveys/SP-2024-00456.rinex",
+						"type": "application/octet-stream",
+						"title": "GNSS Raw Observations (RINEX)",
+						"roles": ["data", "gnss-log"]
+					}
+				}
+			}
+		],
+		"lifespanVersion": {
+			"interval": ["2024-03-15T08:30:00Z", ".."]
+		}
+	}
+}

@@ -1,0 +1,520 @@
+﻿{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/submission-package.json",
+	"submissionId": "SUB-2024-00456",
+	"submittedAt": "2024-09-01T08:00:00Z",
+	"submittedBy": {
+		"name": "Ovlašteni inženjer geodezije Marko Novak",
+		"organization": "GeoSurvey d.o.o.",
+		"roles": ["principalInvestigator"],
+		"emails": [{ "value": "m.novak@geosurvey.hr" }]
+	},
+	"description": "Cadastral subdivision of parcel 1234/5 (2474 m²) into 1234/6 (1238 m²) west and 1234/7 (1237 m²) east, Municipality of Zagreb, cadastral municipality Trnje",
+
+	"sources": [
+		{
+			"sourceType": "spatialSource",
+			"sID": { "localId": "SP-2024-00456", "namespace": "HR.GEOSURVEY.NOVAK" },
+			"availabilityStatus": "incomplete",
+			"maintype": "mapDigital",
+			"procedure": "GNSS",
+			"submission": "2024-09-01T08:00:00Z",
+			"source": [
+				{
+					"name": "Ovlašteni inženjer geodezije Marko Novak",
+					"roles": ["principalInvestigator"],
+					"organization": "GeoSurvey d.o.o."
+				}
+			],
+			"measurements": [
+				{
+					"localId": "PT-001",
+					"pointType": "boundary",
+					"coordinates": [551234.12, 4980123.45],
+					"monumentation": {
+						"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.05, "unit": "m" }
+					},
+					"registeredPoint": {
+						"featureType": "LA_Point",
+						"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000001",
+						"title": "Existing corner NW — verified"
+					}
+				},
+				{
+					"localId": "PT-010",
+					"pointType": "boundary",
+					"coordinates": [551261.90, 4980123.45],
+					"monumentation": {
+						"concepts": [{ "id": "concreteMonument", "title": "Concrete monument" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.02, "unit": "m" }
+					},
+					"note": "NEW split-line corner north — to be registered after acceptance"
+				},
+				{
+					"localId": "PT-011",
+					"pointType": "boundary",
+					"coordinates": [551261.90, 4980078.90],
+					"monumentation": {
+						"concepts": [{ "id": "concreteMonument", "title": "Concrete monument" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.02, "unit": "m" }
+					},
+					"note": "NEW split-line corner south — to be registered after acceptance"
+				},
+				{
+					"localId": "PT-002",
+					"pointType": "boundary",
+					"coordinates": [551289.67, 4980123.45],
+					"monumentation": {
+						"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.05, "unit": "m" }
+					},
+					"registeredPoint": {
+						"featureType": "LA_Point",
+						"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000002",
+						"title": "Existing corner NE — verified"
+					}
+				},
+				{
+					"localId": "PT-003",
+					"pointType": "boundary",
+					"coordinates": [551289.67, 4980078.90],
+					"monumentation": {
+						"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.05, "unit": "m" }
+					},
+					"registeredPoint": {
+						"featureType": "LA_Point",
+						"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000003",
+						"title": "Existing corner SE — verified"
+					}
+				},
+				{
+					"localId": "PT-004",
+					"pointType": "boundary",
+					"coordinates": [551234.12, 4980078.90],
+					"monumentation": {
+						"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.05, "unit": "m" }
+					},
+					"registeredPoint": {
+						"featureType": "LA_Point",
+						"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000004",
+						"title": "Existing corner SW — verified"
+					}
+				},
+				{
+					"localId": "PT-A01",
+					"pointType": "auxiliary",
+					"coordinates": [551310.00, 4980150.00],
+					"note": "Corner of neighbouring parcel 1234/3 — measured for boundary agreement, not to be registered"
+				},
+				{
+					"localId": "PT-C01",
+					"pointType": "control",
+					"coordinates": [551500.00, 4980500.00],
+					"note": "GNSS base station — trigonometric point HR-T-4892"
+				}
+			],
+			"assets": {
+				"sketch": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-sketch.pdf",
+					"type": "application/pdf",
+					"title": "Geodetic Elaborat — Parcel Split SP-2024-00456",
+					"roles": ["sketch", "overview"]
+				},
+				"gnss-raw": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456.rinex",
+					"type": "application/octet-stream",
+					"title": "GNSS Raw Observations (RINEX 3.04)",
+					"roles": ["gnss-log", "data"]
+				},
+				"adjusted-points": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-points.geojson",
+					"type": "application/geo+json",
+					"title": "Adjusted boundary point coordinates",
+					"roles": ["data"]
+				}
+			},
+			"createdObjects": [
+				{
+					"featureType": "LA_Point",
+					"id": "bb000010-0010-0010-0010-000000000010",
+					"title": "New split-line corner north PT-010"
+				},
+				{
+					"featureType": "LA_Point",
+					"id": "bb000011-0011-0011-0011-000000000011",
+					"title": "New split-line corner south PT-011"
+				},
+				{
+					"featureType": "LA_SpatialUnit",
+					"id": "h0ii846l-fi6g-0fff-g689-hij1l3210779",
+					"title": "New parcel 1234/6 west"
+				},
+				{
+					"featureType": "LA_SpatialUnit",
+					"id": "i1jj957m-gj7h-1ggg-h790-ijk2m4321880",
+					"title": "New parcel 1234/7 east"
+				},
+				{
+					"featureType": "LA_BAUnit",
+					"id": "j2kk068n-hk8i-2hhh-i801-jkl3n5432991",
+					"title": "BAUnit for parcel 1234/6"
+				},
+				{
+					"featureType": "LA_BAUnit",
+					"id": "k3ll179o-il9j-3iii-j912-klm4o6543002",
+					"title": "BAUnit for parcel 1234/7"
+				},
+				{
+					"featureType": "LA_Right",
+					"id": "r1right01-0001-0001-0001-right0000001",
+					"title": "Ownership right — 1234/6, Ivan Horvat"
+				},
+				{
+					"featureType": "LA_Right",
+					"id": "r1right02-0002-0002-0002-right0000002",
+					"title": "Ownership right — 1234/7, Ivan Horvat"
+				}
+			],
+			"voidedObjects": [
+				{
+					"featureType": "LA_SpatialUnit",
+					"id": "550e8400-e29b-41d4-a716-446655440000",
+					"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+					"title": "Original parcel 1234/5 — voided by split"
+				},
+				{
+					"featureType": "LA_BAUnit",
+					"id": "b4cc290f-9c0a-4999-a023-bdf5f7654113",
+					"href": "https://api.cadastre.gov.hr/collections/ba-units/items/b4cc290f-9c0a-4999-a023-bdf5f7654113",
+					"title": "BAUnit for original parcel 1234/5 — voided"
+				},
+				{
+					"featureType": "LA_Right",
+					"id": "c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+					"href": "https://api.cadastre.gov.hr/collections/rights/items/c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+					"title": "Original ownership right for 1234/5 — voided"
+				}
+			]
+		}
+	],
+
+	"spatialFeatures": {
+		"type": "FeatureCollection",
+		"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+		"features": [
+			{
+				"type": "Feature",
+				"id": "bb000010-0010-0010-0010-000000000010",
+				"featureType": "LA_Point",
+				"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+				"place": {
+					"type": "Point",
+					"coordinates": [551261.90, 4980123.45]
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [15.9787, 44.9471]
+				},
+				"time": { "interval": ["2024-09-01T00:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "PT-010", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "boundary", "title": "Boundary point" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"monumentation": {
+						"concepts": [{ "id": "concreteMonument", "title": "Concrete monument" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.02, "unit": "m" }
+					},
+					"spatialSource": "SP-2024-00456"
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "bb000011-0011-0011-0011-000000000011",
+				"featureType": "LA_Point",
+				"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+				"place": {
+					"type": "Point",
+					"coordinates": [551261.90, 4980078.90]
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [15.9787, 44.9467]
+				},
+				"time": { "interval": ["2024-09-01T00:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "PT-011", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "boundary", "title": "Boundary point" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"monumentation": {
+						"concepts": [{ "id": "concreteMonument", "title": "Concrete monument" }],
+						"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.02, "unit": "m" }
+					}
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "h0ii846l-fi6g-0fff-g689-hij1l3210779",
+				"featureType": "LA_SpatialUnit",
+				"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+				"place": {
+					"type": "Polygon",
+					"coordinates": [[
+						[551234.12, 4980123.45],
+						[551261.90, 4980123.45],
+						[551261.90, 4980078.90],
+						[551234.12, 4980078.90],
+						[551234.12, 4980123.45]
+					]]
+				},
+				"geometry": {
+					"type": "Polygon",
+					"coordinates": [[
+						[15.9762, 44.9471],
+						[15.9787, 44.9471],
+						[15.9787, 44.9467],
+						[15.9762, 44.9467],
+						[15.9762, 44.9471]
+					]]
+				},
+				"time": { "interval": ["2024-09-06T08:00:00Z", ".."] },
+				"properties": {
+					"suID": "HR.DGU.CGP/1234-6-new",
+					"label": "1234/6",
+					"dimension": "2D",
+					"representationType": "geometrical",
+					"area": [{
+						"measurement": 1238.0,
+						"type": "calculatedArea",
+						"uom": {
+							"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+							"scheme": "https://qudt.org/vocab/unit/"
+						}
+					}],
+					"spatialSource": [{ "id": "SP-2024-00456", "featureType": "LA_SpatialSource", "href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-sketch.pdf" }],
+					"derivedFrom": [
+						{
+							"featureType": "LA_SpatialUnit",
+							"id": "550e8400-e29b-41d4-a716-446655440000",
+							"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+							"title": "Original parcel 1234/5 — voided by this split"
+						}
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "i1jj957m-gj7h-1ggg-h790-ijk2m4321880",
+				"featureType": "LA_SpatialUnit",
+				"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+				"place": {
+					"type": "Polygon",
+					"coordinates": [[
+						[551261.90, 4980123.45],
+						[551289.67, 4980123.45],
+						[551289.67, 4980078.90],
+						[551261.90, 4980078.90],
+						[551261.90, 4980123.45]
+					]]
+				},
+				"geometry": {
+					"type": "Polygon",
+					"coordinates": [[
+						[15.9787, 44.9471],
+						[15.9812, 44.9471],
+						[15.9812, 44.9467],
+						[15.9787, 44.9467],
+						[15.9787, 44.9471]
+					]]
+				},
+				"time": { "interval": ["2024-09-06T08:00:00Z", ".."] },
+				"properties": {
+					"suID": "HR.DGU.CGP/1234-7-new",
+					"label": "1234/7",
+					"dimension": "2D",
+					"representationType": "geometrical",
+					"area": [{
+						"measurement": 1237.0,
+						"type": "calculatedArea",
+						"uom": {
+							"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+							"scheme": "https://qudt.org/vocab/unit/"
+						}
+					}],
+					"spatialSource": [{ "id": "SP-2024-00456", "featureType": "LA_SpatialSource", "href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-sketch.pdf" }],
+					"derivedFrom": [
+						{
+							"featureType": "LA_SpatialUnit",
+							"id": "550e8400-e29b-41d4-a716-446655440000",
+							"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+							"title": "Original parcel 1234/5 — voided by this split"
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"parties": [],
+
+	"baUnits": [
+		{
+			"id": "j2kk068n-hk8i-2hhh-i801-jkl3n5432991",
+			"properties": {
+				"buID": { "localId": "BU-2024-00011", "namespace": "HR.DGU.CGP" },
+				"name": "Katastarska čestica 1234/6",
+				"type": {
+					"concepts": [{ "id": "basicPropertyUnit", "title": "Basic Property Unit" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_BAUnitType"
+				},
+				"su": [{
+					"featureType": "LA_SpatialUnit",
+					"id": "h0ii846l-fi6g-0fff-g689-hij1l3210779",
+					"title": "Parcel 1234/6"
+				}],
+				"rrr": [{
+					"featureType": "LA_Right",
+					"id": "r1right01-0001-0001-0001-right0000001",
+					"title": "Ownership right — 1234/6"
+				}]
+			},
+			"lifespanVersion": { "interval": ["2024-09-06T08:00:00Z", ".."] }
+		},
+		{
+			"id": "k3ll179o-il9j-3iii-j912-klm4o6543002",
+			"properties": {
+				"buID": { "localId": "BU-2024-00012", "namespace": "HR.DGU.CGP" },
+				"name": "Katastarska čestica 1234/7",
+				"type": {
+					"concepts": [{ "id": "basicPropertyUnit", "title": "Basic Property Unit" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_BAUnitType"
+				},
+				"su": [{
+					"featureType": "LA_SpatialUnit",
+					"id": "i1jj957m-gj7h-1ggg-h790-ijk2m4321880",
+					"title": "Parcel 1234/7"
+				}],
+				"rrr": [{
+					"featureType": "LA_Right",
+					"id": "r1right02-0002-0002-0002-right0000002",
+					"title": "Ownership right — 1234/7"
+				}]
+			},
+			"lifespanVersion": { "interval": ["2024-09-06T08:00:00Z", ".."] }
+		}
+	],
+
+	"rrrs": [
+		{
+			"id": "r1right01-0001-0001-0001-right0000001",
+			"properties": {
+				"rID": { "localId": "R-2024-00011", "namespace": "HR.DGU.CGP" },
+				"rrrType": "right",
+				"type": {
+					"concepts": [{ "id": "ownership", "title": "Ownership" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_RightType"
+				},
+				"share": { "numerator": 1, "denominator": 1 },
+				"shareCheck": true,
+				"party": {
+					"featureType": "LA_Party",
+					"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"href": "https://api.cadastre.gov.hr/collections/parties/items/a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"title": "Ivan Horvat (existing party)"
+				},
+				"unit": {
+					"featureType": "LA_BAUnit",
+					"id": "j2kk068n-hk8i-2hhh-i801-jkl3n5432991",
+					"title": "BAUnit for parcel 1234/6"
+				}
+			},
+			"lifespanVersion": { "interval": ["2024-09-06T08:00:00Z", ".."] }
+		},
+		{
+			"id": "r1right02-0002-0002-0002-right0000002",
+			"properties": {
+				"rID": { "localId": "R-2024-00012", "namespace": "HR.DGU.CGP" },
+				"rrrType": "right",
+				"type": {
+					"concepts": [{ "id": "ownership", "title": "Ownership" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_RightType"
+				},
+				"share": { "numerator": 1, "denominator": 1 },
+				"shareCheck": true,
+				"party": {
+					"featureType": "LA_Party",
+					"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"href": "https://api.cadastre.gov.hr/collections/parties/items/a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"title": "Ivan Horvat (existing party)"
+				},
+				"unit": {
+					"featureType": "LA_BAUnit",
+					"id": "k3ll179o-il9j-3iii-j912-klm4o6543002",
+					"title": "BAUnit for parcel 1234/7"
+				}
+			},
+			"lifespanVersion": { "interval": ["2024-09-06T08:00:00Z", ".."] }
+		}
+	]
+}

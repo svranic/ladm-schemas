@@ -1,0 +1,30 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/right.json",
+	"title": "LADM LA_Right",
+	"description": "A right is a legally recognised interest in land (e.g. ownership, lease, usufruct, superficies). LA_Right extends LA_RRR with rrrType fixed to 'right' and a type codelist referencing LA_RightType values.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: LA_RRR abstract base",
+			"$ref": "./rrr.json#/$defs/LA_RRR"
+		},
+		{
+			"$comment": "CONSTRAINTS: Right-specific rules",
+			"type": "object",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"properties": {
+						"rrrType": {
+							"const": "right"
+						},
+						"type": {
+							"description": "LA_RightType codelist. Common values: ownership, lease, usufruct, superficies, habitationRight. Recommended scheme: LADM LA_RightType or national equivalent."
+						}
+					}
+				}
+			}
+		}
+	]
+}

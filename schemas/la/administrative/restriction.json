@@ -1,0 +1,43 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/restriction.json",
+	"title": "LADM LA_Restriction",
+	"description": "A restriction is a legally recognised limitation on land use or ownership (e.g. mortgage, easement, land use restriction, conservation order). LA_Restriction extends LA_RRR with rrrType fixed to 'restriction'.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: LA_RRR abstract base",
+			"$ref": "./rrr.json#/$defs/LA_RRR"
+		},
+		{
+			"$comment": "CONSTRAINTS: Restriction-specific rules and additional properties",
+			"type": "object",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"properties": {
+						"rrrType": {
+							"const": "restriction"
+						},
+						"type": {
+							"description": "LA_RestrictionType codelist. Common values: mortgage, easement, landUseRestriction, conservationOrder, publicRightOfWay. Recommended scheme: LADM LA_RestrictionType or national equivalent."
+						},
+						"mortgageAmount": {
+							"description": "Monetary amount of the mortgage (applicable when type is 'mortgage')",
+							"type": "number",
+							"minimum": 0
+						},
+						"mortgageCurrency": {
+							"description": "Currency of the mortgage amount (ISO 4217 CodeListRef)",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"mortgageType": {
+							"description": "LA_MortgageType codelist. Common values: levelPayment, linear, Islamic.",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						}
+					}
+				}
+			}
+		}
+	]
+}

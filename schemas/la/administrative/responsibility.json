@@ -1,0 +1,38 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/responsibility.json",
+	"title": "LADM LA_Responsibility",
+	"description": "A responsibility is a legally recognised obligation related to land (e.g. maintenance of a road, drainage duty, infrastructure upkeep). LA_Responsibility extends LA_RRR with rrrType fixed to 'responsibility' and adds optional duty payer/creditor party references.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: LA_RRR abstract base",
+			"$ref": "./rrr.json#/$defs/LA_RRR"
+		},
+		{
+			"$comment": "CONSTRAINTS: Responsibility-specific rules and additional properties",
+			"type": "object",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"properties": {
+						"rrrType": {
+							"const": "responsibility"
+						},
+						"type": {
+							"description": "LA_ResponsibilityType codelist. Common values: maintenanceDuty, paymentDuty, developmentDuty. Recommended scheme: LADM LA_ResponsibilityType or national equivalent."
+						},
+						"dutyPayer": {
+							"description": "Typed reference to the party obligated to fulfil this responsibility (may differ from the general 'party' reference)",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						},
+						"dutyCreditParty": {
+							"description": "Typed reference to the party that benefits from this responsibility being fulfilled",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						}
+					}
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,83 @@
+﻿{
+	"@context": {
+		"@version": 1.1,
+
+		"_comments": "LADM JSON-LD context — maps LADM JSON property names to ISO 19152 RDF URIs and reuses OGC/W3C/GeoJSON-LD namespaces. Add '@context': 'https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/contexts/ladm-context.jsonld' to any LADM feature instance to make it Linked Data-compatible.",
+
+		"ladm":    "http://def.isotc211.org/iso19152/2012/LandAdministration#",
+		"iso19157": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/",
+		"ogcapi":  "http://www.opengis.net/def/rel/ogc/1.0/",
+		"geojson": "https://purl.org/geojson/vocab#",
+		"jsonfg":  "http://www.opengis.net/doc/IS/json-fg/1.0#",
+		"skos":    "http://www.w3.org/2004/02/skos/core#",
+		"xsd":     "http://www.w3.org/2001/XMLSchema#",
+		"qudt":    "https://qudt.org/schema/qudt/",
+		"vcard":   "http://www.w3.org/2006/vcard/ns#",
+		"prov":    "http://www.w3.org/ns/prov#",
+
+		"type":        "@type",
+		"id":          "@id",
+
+		"properties":    "@nest",
+
+		"featureType":    { "@id": "jsonfg:featureType" },
+		"coordRefSys":    { "@id": "jsonfg:coordRefSys" },
+		"place":          { "@id": "jsonfg:place" },
+		"time":           { "@id": "jsonfg:time" },
+		"interval":       { "@id": "jsonfg:interval", "@container": "@list" },
+		"ladm_profiles":  { "@id": "ladm:conformsToProfile", "@type": "@id", "@container": "@set" },
+
+		"suID":               { "@id": "ladm:LA_SpatialUnit.suID" },
+		"sugID":              { "@id": "ladm:LA_SpatialUnitGroup.sugID" },
+		"lID":                { "@id": "ladm:LA_Level.lID" },
+		"label":              { "@id": "skos:prefLabel" },
+		"dimension":          { "@id": "ladm:LA_SpatialUnit.dimension" },
+		"representationType": { "@id": "ladm:LA_SpatialUnit.representationType" },
+		"legalDescription":   { "@id": "ladm:LA_SpatialUnit.legalDescription" },
+		"area":               { "@id": "ladm:LA_SpatialUnit.area", "@container": "@set" },
+		"measurement":        { "@id": "ladm:LA_AreaValue.measurement", "@type": "xsd:decimal" },
+		"uom":                { "@id": "qudt:unit", "@type": "@id" },
+		"landUse":            { "@id": "ladm:LA_SpatialUnit.landUse" },
+		"spatialSource":      { "@id": "ladm:LA_SpatialUnit.spatialSource", "@container": "@set" },
+		"referencePoint":     { "@id": "ladm:LA_SpatialUnit.referencePoint" },
+
+		"isDirected":         { "@id": "ladm:LA_BoundaryFaceString.isDirected", "@type": "xsd:boolean" },
+		"leftUnit":           { "@id": "ladm:LA_BoundaryFaceString.leftUnit" },
+		"rightUnit":          { "@id": "ladm:LA_BoundaryFaceString.rightUnit" },
+
+		"hierarchyLevel": { "@id": "ladm:LA_SpatialUnitGroup.hierarchyLevel", "@type": "xsd:integer" },
+		"name":           { "@id": "skos:prefLabel" },
+		"element":        { "@id": "ladm:LA_SpatialUnitGroup.element", "@type": "@id", "@container": "@set" },
+
+		"registerType":   { "@id": "ladm:LA_Level.registerType" },
+		"structure":      { "@id": "ladm:LA_Level.structure" },
+
+		"relationship":   { "@id": "ladm:LA_RequiredRelationship.relationship" },
+		"su1":            { "@id": "ladm:LA_RequiredRelationship.su1", "@type": "@id" },
+		"su2":            { "@id": "ladm:LA_RequiredRelationship.su2", "@type": "@id" },
+
+		"lifespanVersion":           { "@id": "ladm:VersionedObject.lifespanVersion" },
+		"realWorldLifespanVersion":  { "@id": "ladm:VersionedObject.realWorldLifespanVersion" },
+		"beginLifespanSource":       { "@id": "ladm:VersionedObject.beginLifespanSource" },
+		"endLifespanSource":         { "@id": "ladm:VersionedObject.endLifespanSource" },
+		"quality":                   { "@id": "ladm:VersionedObject.quality" },
+		"derivedFrom":               { "@id": "prov:wasDerivedFrom", "@container": "@set" },
+		"revisedFrom":               { "@id": "prov:wasRevisionOf" },
+
+		"sID":                { "@id": "ladm:LA_Source.sID" },
+		"sourceType":         { "@id": "ladm:LA_Source.sourceType" },
+		"availabilityStatus": { "@id": "ladm:LA_Source.availabilityStatus" },
+		"maintype":           { "@id": "ladm:LA_Source.maintype" },
+		"submission":         { "@id": "ladm:LA_Source.submission", "@type": "xsd:dateTime" },
+		"acceptance":         { "@id": "ladm:LA_Source.acceptance", "@type": "xsd:dateTime" },
+		"recordation":        { "@id": "ladm:LA_Source.recordation", "@type": "xsd:dateTime" },
+		"extArchiveID":       { "@id": "ladm:LA_Source.extArchiveID" },
+		"procedure":          { "@id": "ladm:LA_SpatialSource.procedure" },
+		"measurements":       { "@id": "ladm:LA_SpatialSource.measurements", "@container": "@set" },
+
+		"concepts":   { "@id": "skos:member", "@container": "@set" },
+		"scheme":     { "@id": "skos:inScheme", "@type": "@id" },
+
+		"features":   { "@id": "geojson:features", "@container": "@set" }
+	}
+}

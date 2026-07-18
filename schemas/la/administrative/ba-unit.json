@@ -1,0 +1,79 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/ba-unit.json",
+	"title": "LADM LA_BAUnit",
+	"description": "Basic Administrative Unit — the administrative counterpart of the spatial unit. A BAUnit groups the spatial units that define one person's rights or the spatial extent of a restriction/responsibility, and links them to the applicable RRRs. LA_BAUnit is not a spatial feature; it has no geometry.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: LADM VersionedObject (lifecycle tracking)",
+			"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "LA_BAUnit properties",
+			"type": "object",
+			"required": ["id", "properties"],
+			"properties": {
+				"id": {
+					"description": "Globally unique identifier (UUID or URI), OGC API compatible",
+					"oneOf": [
+						{ "type": "string", "format": "uuid" },
+						{ "type": "string", "format": "uri" }
+					]
+				},
+				"properties": {
+					"type": "object",
+					"required": ["buID", "name", "type"],
+					"properties": {
+						"buID": {
+							"description": "LADM domain identifier (namespace + localId)",
+							"$ref": "../core/datatypes.json#/$defs/Oid"
+						},
+						"name": {
+							"description": "Name or code of the basic administrative unit",
+							"type": "string"
+						},
+						"type": {
+							"description": "LA_BAUnitType codelist. Common values: basicPropertyUnit, legalSpaceNetwork, legalSpaceBuilding.",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"creationDate": {
+							"description": "Date this BAUnit was legally created",
+							"type": "string",
+							"format": "date-time"
+						},
+						"terminationDate": {
+							"description": "Date this BAUnit was legally terminated (null if still active)",
+							"type": "string",
+							"format": "date-time"
+						},
+						"su": {
+							"description": "Typed references to the LA_SpatialUnit(s) that define the spatial extent of this BAUnit [1..*]",
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+							}
+						},
+						"rrr": {
+							"description": "References to the LA_RRR instances (rights, restrictions, responsibilities) applicable to this BAUnit [0..*]. May be URI links or embedded objects discriminated by rrrType.",
+							"type": "array",
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/RRRRef"
+							}
+						},
+						"quality": {
+							"$ref": "../core/datatypes.json#/$defs/DQ_Quality"
+						},
+						"beginLifespanSource": {
+							"$ref": "../core/datatypes.json#/$defs/SourceRef"
+						},
+						"endLifespanSource": {
+							"$ref": "../core/datatypes.json#/$defs/SourceRef"
+						}
+					}
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,194 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/profiles/land-parcel.json",
+	"title": "LandParcel — LADM Profile",
+	"description": "Profile that merges the OGC bblocks-land-parcels building block (ogc.ladm.land-parcels.parcel, https://github.com/ogcincubator/bblocks-land-parcels) with LADM LA_SpatialUnit. The LandParcel ontology (https://w3id.org/ogc/ladm/parcels/) already treats Parcel as a subclass of 3DSpatialUnit (LA_SpatialUnit) and is grounded in the LADM/CSDM model, so the two schemas compose naturally. Key design decisions: (1) Topology — 'topology.references' (OGC ogc-utils.topology building block) is the single boundary representation; each reference IRI identifies an LA_BoundaryFaceString feature. The BFS feature carries left/right unit adjacency — the parcel does not need to repeat it. 'topology.relationships' is dropped; feature-level containment/adjacency relations use OGC API 'links' instead. (2) Interests → RRR — LandParcel 'interests[]' maps directly to LADM RRR: 'interestLink' is the LA_RRR FeatureRef; 'interestType' the rrrType CodeListRef. Both plain URIs and structured FeatureRef objects are accepted for link properties. (3) Purpose/Use — 'parcelPurpose' CURIE (LandParcel) is replaced by LADM 'landUse' CodeListRef to avoid dual-vocabulary redundancy; 'parcelType' and 'parcelState' CURIEs are kept as they have no direct LADM equivalent. (4) Appellation — from 'ogc.bbr.utils.compoundName' building block; subproperty of 'com:name' in the LandParcel ontology.",
+
+	"allOf": [
+		{
+			"$comment": "BASE: LADM LA_SpatialUnit (JSON-FG 1.0.0 + VersionedObject + representationType). Provides: place, geometry, coordRefSys, time, featureType, suID, dimension, representationType, area[], landUse, spatialSource, lifespanVersion.",
+			"$ref": "../la/spatial-unit/spatial-unit.json"
+		},
+		{
+			"$comment": "EXTENSION: OGC LandParcel building block properties (ogc.ladm.land-parcels.parcel inline). Appellation from ogc.bbr.utils.compoundName; interests[] from LandParcel 'interest' $def mapped to LADM RRR; topology from ogc.ogc-utils.topology. 'links' follows OGC API Features pattern for parcel-to-territory containment relations.",
+			"type": "object",
+			"properties": {
+				"links": {
+					"description": "OGC API Features links for feature-level relationships: containment in administrative/cadastral units, alternate representations, and canonical self-link. Replaces the former 'topology.relationships' array which conflated topology with feature relationships. Link relation types from the OGC name server (https://www.opengis.net/def/rel/ogc/1.0/) are preferred.",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"required": ["href", "rel"],
+						"properties": {
+							"href": { "type": "string", "format": "uri" },
+							"rel": { "type": "string" },
+							"type": { "type": "string" },
+							"title": { "type": "string" },
+							"hreflang": { "type": "string" }
+						}
+					}
+				},
+				"topology": {
+					"description": "Topological boundary representation using the OGC Topology building block (ogc.ogc-utils.topology). 'references' is an ordered list of IRIs identifying the directed LA_BoundaryFaceString features that form the closed boundary ring(s) of this parcel. Direction follows the right-hand rule: the parcel interior is to the left of each directed curve. Adjacency (which parcel is on the other side of each edge) is encoded on the LA_BoundaryFaceString features via 'leftUnit'/'rightUnit' — not on this parcel. This is the single boundary topology representation; 'properties.boundaryFaceStrings' is not used in this profile (those FeatureRefs are superseded by the IRI-based references here).",
+					"type": "object",
+					"required": ["type", "references"],
+					"properties": {
+						"type": {
+							"description": "Composed geometry type (e.g. 'Polygon', 'MultiPolygon')",
+							"type": "string"
+						},
+						"references": {
+							"description": "Ordered ring(s) of LA_BoundaryFaceString IRIs. Each inner array is one ring; the first ring is the exterior boundary. Items are IRIs resolvable via the cadastral API or relative to the base URI declared in the feature collection.",
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"type": "array",
+								"minItems": 3,
+								"items": {
+									"type": "string",
+									"format": "uri-reference"
+								}
+							}
+						}
+					}
+				},
+				"properties": {
+					"properties": {
+						"appellation": {
+							"description": "Compound name / formal parcel identifier decomposed into typed name parts. Building block: ogc.bbr.utils.compoundName (LandParcel bblocks). Ontology mapping: subproperty of 'com:name' in the LandParcel ontology (https://w3id.org/ogc/ladm/parcels/). Captures the jurisdictional naming scheme (plan type, plan number, parcel type, parcel identifier, cadastral municipality, etc.) more expressively than 'suID'. Both may be present: 'suID' is the machine-readable registry ID; 'appellation' is the decomposed legal name.",
+							"type": "object",
+							"required": ["label"],
+							"properties": {
+								"label": {
+									"description": "Full human-readable label (e.g. 'k.č. 1234/5 k.o. Trnje', 'Lot 1 DP 572532')",
+									"type": "string"
+								},
+								"hasPart": {
+									"description": "Name parts in declaration order, each with a type role understood by the jurisdiction",
+									"type": "array",
+									"items": {
+										"type": "object",
+										"required": ["type", "label"],
+										"properties": {
+											"type": {
+												"description": "Role of this name part (e.g. CadastralMunicipality, ParcelType, ParcelIdentifier, PlanType, PlanIdentifier, BuildingLevel)",
+												"type": "string"
+											},
+											"label": { "type": "string" }
+										}
+									}
+								}
+							}
+						},
+						"parcelType": {
+							"description": "Parcel classification as an IRI or CURIE code reference. LandParcel ontology property: parcel:type, range ParcelType. Distinguishes e.g. allotment, road, water, stratum (3D). Example IRI: 'https://cadastre.gov.hr/codelist/parcelType/regularParcel'.",
+							"type": "string"
+						},
+						"parcelState": {
+							"description": "Current lifecycle state as an IRI or CURIE. LandParcel ontology property: parcel:state, range ParcelState. Lifecycle history is captured in 'lifespanVersion' and 'time'; this field records the explicit codelist state. Example: 'https://cadastre.gov.hr/codelist/parcelState/historical'.",
+							"type": "string"
+						},
+						"interests": {
+							"description": "Legal interests affecting this parcel. LandParcel building block 'interest' $def; ontology type: parcel:LandInterest, which corresponds to LADM LA_RRR (Right, Restriction, Responsibility). This array is a lightweight embedded read-delivery view — suitable for responses that need parcel + encumbrances without client traversal. For write/update operations, use LADM submission packages with separate LA_Right/LA_Restriction/LA_Responsibility objects. The 'interestLink' field is the canonical identifier of the corresponding LA_RRR object in the cadastral API.",
+							"type": "array",
+							"items": {
+								"type": "object",
+								"required": ["interestLink", "interestType"],
+								"properties": {
+									"interestLink": {
+										"description": "Reference to the LA_RRR object. Accepts a plain URI string (LandParcel bblock format) or a structured FeatureRef object (LADM format) — both identify the same cadastral API resource.",
+										"oneOf": [
+											{
+												"type": "string",
+												"format": "uri",
+												"description": "URI of the LA_RRR object (LandParcel CURIE/IRI format)"
+											},
+											{
+												"$ref": "../../la/core/datatypes.json#/$defs/FeatureRef",
+												"description": "Structured LADM FeatureRef (featureType + id/href)"
+											}
+										]
+									},
+									"interestName": {
+										"description": "Human-readable name of the interest (e.g. 'Vlasništvo', 'Mortgage', 'Right of Way')",
+										"type": "string"
+									},
+									"interestType": {
+										"description": "Interest type as IRI/CURIE. Maps to LADM rrrType (right/restriction/responsibility) + type CodeListRef. Example: 'https://cadastre.gov.hr/codelist/interestType/ownership'.",
+										"type": "string"
+									},
+									"dateInForce": {
+										"description": "Date the interest became active. Maps to LA_RRR.timeSpec start.",
+										"type": "string",
+										"format": "date-time"
+									},
+									"dateExpires": {
+										"description": "Date the interest expires (absent for perpetual rights). Maps to LA_RRR.timeSpec end.",
+										"type": "string",
+										"format": "date-time"
+									},
+									"statuteLink": {
+										"description": "IRI of the statute / legal instrument authorising this interest. Maps to LA_AdministrativeSource reference.",
+										"type": "string"
+									},
+									"statuteName": { "type": "string" },
+									"benefitedPartyName": {
+										"description": "Display name of the party holding the interest. Maps to LA_Party.name.",
+										"type": "string"
+									},
+									"benefitedPartyLink": {
+										"description": "Reference to the LA_Party object. Accepts a plain URI string or a structured FeatureRef.",
+										"oneOf": [
+											{ "type": "string", "format": "uri" },
+											{ "$ref": "../../la/core/datatypes.json#/$defs/FeatureRef" }
+										]
+									},
+									"originalSurveyLink": {
+										"description": "Reference to the LA_SpatialSource that established this interest's spatial extent. Accepts URI or FeatureRef.",
+										"oneOf": [
+											{ "type": "string", "format": "uri" },
+											{ "$ref": "../../la/core/datatypes.json#/$defs/FeatureRef" }
+										]
+									},
+									"referencedParcel": {
+										"description": "Parcel that is the subject of this interest (for secondary/easement parcels). IRI or FeatureRef.",
+										"oneOf": [
+											{ "type": "string", "format": "uri" },
+											{ "$ref": "../../la/core/datatypes.json#/$defs/FeatureRef" }
+										]
+									},
+									"burdenedParcels": {
+										"description": "Parcels burdened by this interest (e.g. dominant tenement in an easement)",
+										"type": "array",
+										"items": {
+											"oneOf": [
+												{ "type": "string", "format": "uri" },
+												{ "$ref": "../../la/core/datatypes.json#/$defs/FeatureRef" }
+											]
+										}
+									},
+									"benefitedParcels": {
+										"description": "Parcels that benefit from this interest",
+										"type": "array",
+										"items": {
+											"oneOf": [
+												{ "type": "string", "format": "uri" },
+												{ "$ref": "../../la/core/datatypes.json#/$defs/FeatureRef" }
+											]
+										}
+									},
+									"description": { "type": "string" },
+									"entitlementPortion": {
+										"description": "Ownership share as a fraction string (e.g. '1/2', '1/1'). Maps to LA_RRR.share (Fraction).",
+										"type": "string"
+									},
+									"liabilityPortion": { "type": "string" }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	]
+}

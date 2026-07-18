@@ -1,0 +1,49 @@
+﻿{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/feature.json",
+	"title": "LADM LA_Feature (JSON-FG 1.0.0 Profile)",
+	"description": "Base schema for all LADM spatial feature classes. Combines OGC JSON-FG Feature 1.0.0 with LADM VersionedObject lifecycle tracking. The JSON-FG 'time' block maps to LADM realWorldLifespanVersion (begin/endRealWorldLifespanVersion). The system lifespan (lifespanVersion) and its source references are recorded inside 'properties'.",
+
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: OGC JSON-FG Feature 1.0.0 (geometry, place, time, featureType, coordRefSys)",
+			"$ref": "https://schemas.opengis.net/json-fg/feature.json"
+		},
+		{
+			"$comment": "2. INHERITANCE: LADM VersionedObject (lifespanVersion, source references, quality)",
+			"$ref": "./versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "3. LADM Feature base constraints: mandatory id, type, and optional coordRefSys + profile declarations",
+			"type": "object",
+			"properties": {
+				"type": {
+					"const": "Feature"
+				},
+				"id": {
+					"description": "Globally unique feature identifier. OGC API - Features compatible: UUID or URI.",
+					"oneOf": [
+						{ "type": "string", "format": "uuid" },
+						{ "type": "string", "format": "uri" }
+					]
+				},
+				"coordRefSys": {
+					"description": "CRS for the 'place' geometry (OGC URI, e.g. 'urn:ogc:def:crs:EPSG::3765'). Inherits from collection-level coordRefSys when absent.",
+					"type": "string"
+				},
+				"ladm_profiles": {
+					"description": "List of URIs declaring which LADM profiles this feature instance conforms to (e.g. INSPIRE, national cadastre profile). Inspired by STAC stac_extensions pattern. Processors can use these URIs to locate additional validation schemas.",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"format": "uri"
+					}
+				}
+			},
+			"required": [
+				"type",
+				"id"
+			]
+		}
+	]
+}

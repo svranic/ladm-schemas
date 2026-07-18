@@ -1,0 +1,55 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"type": "Feature",
+	"id": "topo-1234-0001-0001-0001-000000000001",
+	"featureType": "LA_SpatialUnit",
+	"place": null,
+	"time": { "interval": ["2024-09-06T08:00:00Z", ".."] },
+	"properties": {
+		"suID": "HR.DGU.CGP/1234-8",
+		"label": "1234/8",
+		"dimension": "2D",
+		"representationType": "topological",
+		"area": [{
+			"measurement": 3410.0,
+			"type": "officialArea",
+			"uom": {
+				"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+				"scheme": "https://qudt.org/vocab/unit/"
+			}
+		}],
+		"boundaryFaceStrings": [
+			{
+				"featureType": "LA_BoundaryFaceString",
+				"id": "bfs-1001-0001-0001-0001-000000000001",
+				"href": "https://api.cadastre.gov.hr/collections/boundary-face-strings/items/bfs-1001-0001-0001-0001-000000000001",
+				"title": "North boundary — road edge"
+			},
+			{
+				"featureType": "LA_BoundaryFaceString",
+				"id": "bfs-1001-0001-0001-0001-000000000002",
+				"href": "https://api.cadastre.gov.hr/collections/boundary-face-strings/items/bfs-1001-0001-0001-0001-000000000002",
+				"title": "East boundary — shared with parcel 1234/9"
+			},
+			{
+				"featureType": "LA_BoundaryFaceString",
+				"id": "bfs-1001-0001-0001-0001-000000000003",
+				"href": "https://api.cadastre.gov.hr/collections/boundary-face-strings/items/bfs-1001-0001-0001-0001-000000000003",
+				"title": "South boundary — creek"
+			},
+			{
+				"featureType": "LA_BoundaryFaceString",
+				"id": "bfs-1001-0001-0001-0001-000000000004",
+				"href": "https://api.cadastre.gov.hr/collections/boundary-face-strings/items/bfs-1001-0001-0001-0001-000000000004",
+				"title": "West boundary — forest edge"
+			}
+		],
+		"landUse": {
+			"concepts": [{ "id": "2_1_ForestUse", "title": "Forest use" }],
+			"scheme": "https://inspire.ec.europa.eu/codelist/HILUCSValue"
+		},
+		"lifespanVersion": {
+			"interval": ["2024-09-06T08:00:00Z", ".."]
+		}
+	}
+}

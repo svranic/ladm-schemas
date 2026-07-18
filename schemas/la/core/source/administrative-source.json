@@ -1,37 +1,32 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/source/administrative-source.json",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source/administrative-source.json",
   "title": "LADM LA_AdministrativeSource",
-  "description": "Source with administrative/legal content (Deed, Title, Contract)",
-  
+  "description": "Source with administrative/legal content (Deed, Title, Contract, Decision). An instance must be associated to one or more parties (at minimum the conveyancer). May be associated to BasicAdministrativeUnits and RRR instances.",
+
   "allOf": [
     {
       "$comment": "INHERITANCE: Inherits everything from the abstract LA_Source",
-      "$ref": "../core/source.json#/$defs/LA_Source"
+      "$ref": "../source.json#/$defs/LA_Source"
     },
     {
       "$comment": "EXTENSIONS: Specific properties for Administrative Source",
       "type": "object",
       "properties": {
-        "properties": {
-          "type": "object",
-          "properties": {
-             "type": {
-               "const": "administrativeSource",
-               "description": "Discriminator"
-             },
-             "text": {
-               "description": "The content of the document (MIME type dependent) or legal text",
-               "type": "string"
-             },
-             "type": {
-               "description": "CodeList: Type of document (deed, title, decision)",
-               "$ref": "../datatypes.json#/$defs/CodeListRef"
-             }
-          },
-          "required": ["type"]
+        "sourceType": {
+          "const": "administrativeSource",
+          "description": "Discriminator identifying this as an Administrative Source"
+        },
+        "type": {
+          "description": "CodeList: Type of administrative document. Covers values from LA_AdministrativeSourceType, LA_RightType, and LA_RestrictionType (e.g. deed, title, mortgage, easement, decision).",
+          "$ref": "../datatypes.json#/$defs/CodeListRef"
+        },
+        "text": {
+          "description": "The content or legal text of the document (MIME type dependent)",
+          "type": "string"
         }
-      }
+      },
+      "required": ["sourceType"]
     }
   ]
 }

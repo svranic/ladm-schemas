@@ -1,39 +1,116 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/source/spatial-source.json",
+  "$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source/spatial-source.json",
   "title": "LADM LA_SpatialSource",
-  "description": "Source with spatial reference (Survey Plan, GNSS measurement log)",
-  
+  "description": "Source with spatial reference representing a survey event (field measurement campaign). Contains the survey procedure, raw/adjusted measurements as SurveyPoints, and attached files via the STAC-inspired assets map. Only final adjusted coordinates are stored in SurveyPoints; raw field observations, sketches, and auxiliary measurements are in assets. Points of type 'boundary' and 'building' become registered LA_Point objects after cadastral acceptance; 'auxiliary' and 'control' points remain only in the spatial source.",
+
   "allOf": [
     {
       "$comment": "INHERITANCE: Inherits everything from the abstract LA_Source",
-      "$ref": "../core/source.json#/$defs/LA_Source"
+      "$ref": "../source.json#/$defs/LA_Source"
     },
     {
       "$comment": "EXTENSIONS: Specific properties for Spatial Source",
       "type": "object",
       "properties": {
-        "properties": {
+        "sourceType": {
+          "const": "spatialSource",
+          "description": "Discriminator identifying this as a Spatial Source"
+        },
+        "procedure": {
+          "description": "Survey procedure used (e.g. 'GNSS', 'totalStation', 'photogrammetry', 'terrestrialLaserScanning', 'orthophoto')",
+          "type": "string"
+        },
+        "measurements": {
+          "description": "Final adjusted survey points. 'boundary' and 'building' types become registered LA_Point objects after acceptance. 'auxiliary' and 'control' types are stored only in the spatial source for context and quality verification.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SurveyPoint"
+          }
+        },
+        "assets": {
+          "description": "Survey files attached to this source. Common roles: 'sketch' (field sketch PDF), 'data' (adjusted coordinates file), 'gnss-log' (raw RINEX), 'report' (survey report).",
           "type": "object",
-          "properties": {
-             "type": {
-               "const": "spatialSource",
-               "description": "Discriminator to identify this object type"
-             },
-             "procedure": {
-               "description": "CI_PresentationFormCode or similar describing the survey procedure",
-               "type": "string"
-             },
-             "measurements": {
-               "description": "List of observations/measurements",
-               "type": "array",
-               "items": {
-                 "type": "object", 
-                 "description": "Placeholder for LA_Point/Observation structure"
-               }
-             }
-          },
-          "required": ["type"]
+          "additionalProperties": {
+            "$ref": "#/$defs/SpatialAsset"
+          }
+        }
+      },
+      "required": ["sourceType"]
+    }
+  ],
+
+  "$defs": {
+    "SurveyPoint": {
+      "type": "object",
+      "description": "A single measured point from the survey. Final adjusted coordinates only — raw field observations are in the assets. 'boundary' and 'building' points will become registered LA_Point objects after acceptance; 'auxiliary' and 'control' points remain only in the spatial source.",
+      "required": ["localId", "pointType", "coordinates"],
+      "properties": {
+        "localId": {
+          "type": "string",
+          "description": "Local identifier within this survey (e.g. 'PT-001'). Used to cross-reference points within the submission package."
+        },
+        "pointType": {
+          "type": "string",
+          "description": "Classification of the measured point.",
+          "enum": [
+            "boundary",
+            "building",
+            "auxiliary",
+            "control"
+          ]
+        },
+        "coordinates": {
+          "type": "array",
+          "description": "Final adjusted coordinates [x, y] or [x, y, z] in the survey CRS (see LA_SpatialSource parent coordRefSys or the submission coordRefSys).",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "type": "number" }
+        },
+        "monumentation": {
+          "description": "Type of physical boundary monument for 'boundary' points (e.g. concreteMonument, ironPeg, naturalObject, unmarked).",
+          "$ref": "../datatypes.json#/$defs/CodeListRef"
+        },
+        "accuracy": {
+          "description": "Positional accuracy of this point's adjusted coordinates.",
+          "$ref": "../datatypes.json#/$defs/DQ_Quality"
+        },
+        "registeredPoint": {
+          "description": "After cadastral acceptance: typed reference to the registered LA_Point created from this survey point. Absent at submission time.",
+          "$ref": "../datatypes.json#/$defs/FeatureRef"
+        },
+        "note": {
+          "type": "string",
+          "description": "Free-text note (e.g. 'neighbouring parcel corner, measured for context', 'GNSS base station')"
+        }
+      }
+    },
+
+    "SpatialAsset": {
+      "type": "object",
+      "description": "A survey file or document asset. Inspired by the STAC Asset pattern.",
+      "required": ["href"],
+      "properties": {
+        "href": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the asset file"
+        },
+        "type": {
+          "type": "string",
+          "description": "Media type (e.g. 'application/pdf', 'application/vnd.las', 'application/geopackage+sqlite3', 'application/geo+json')"
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title of the asset"
+        },
+        "description": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "description": "Functional roles: 'sketch' (field sketch), 'data' (adjusted measurements), 'gnss-log' (raw RINEX), 'report', 'overview'.",
+          "items": { "type": "string" }
         }
       }
     }

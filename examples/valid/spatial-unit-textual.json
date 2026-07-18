@@ -1,0 +1,30 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"type": "Feature",
+	"id": "text-abcd-ef12-3456-7890-abcdef123456",
+	"featureType": "LA_SpatialUnit",
+	"place": null,
+	"time": { "interval": ["1850-01-01", "1992-04-01"] },
+	"properties": {
+		"suID": "HR.DGU.ZK/KC-1234-OLD",
+		"label": "k.č. 1234 (stari premjer)",
+		"dimension": "2D",
+		"representationType": "textual",
+		"area": [{
+			"measurement": 8500.0,
+			"type": "officialArea",
+			"uom": {
+				"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+				"scheme": "https://qudt.org/vocab/unit/"
+			}
+		}],
+		"legalDescription": {
+			"text": "Čestica br. 1234 u k.o. Trnje, upisana u zk. ul. br. 456. Graniči: na sjeveru s česticom br. 1233 (vlasnik Ivan Kovač), na istoku s javnim putem k.č. 1200/1, na jugu s potokom — granica prema k.č. 1235, na zapadu s česticom br. 1231 (vlasnik Josip Novak). Površina po starom premjeru 8500 m².",
+			"language": "hr",
+			"notation": "parcelReference"
+		},
+		"lifespanVersion": {
+			"interval": ["1850-01-01", "1992-04-01"]
+		}
+	}
+}

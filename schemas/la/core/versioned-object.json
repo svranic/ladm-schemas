@@ -1,91 +1,110 @@
-{
+﻿{
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/versioned-object.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/versioned-object.json",
 	"title": "LADM VersionedObject",
-	"description": "Abstract class for objects with history/lifespan management mapped to JSON-FG structures",
+	"description": "Abstract mixin for all LADM classes with history and lifespan management. Used by both spatial features (via LA_Feature) and non-spatial classes (LA_Source, LA_Party, LA_RRR, LA_BAUnit).",
 	"$defs": {
-		"SourceReference": {
-			"description": "A reference to an LA_Source object. Can be a URI link or the full embedded object.",
-			"oneOf": [
-				{
-					"title": "Reference Link",
-					"description": "URI pointing to the source document (e.g., API endpoint)",
-					"type": "string",
-					"format": "uri"
-				},
-				{
-					"title": "Embedded Source",
-					"description": "Full LA_Source object embedded directly",
-					"$ref": "./source.json#/$defs/LA_Source"
-				}
-			]
-		},
 		"VersionedObject": {
 			"type": "object",
-			"description": "Mixin that enforces temporal properties on a Feature",
+			"description": "Mixin that adds temporal lifecycle properties. For spatial features, 'realWorldLifespanVersion' is expressed via the JSON-FG native 'time' block in LA_Feature. For non-spatial classes, use 'realWorldLifespanVersion' directly.",
 			"properties": {
 				"lifespanVersion": {
-					"description": "Maps LADM beginLifespanVersion and endLifespanVersion to JSON-FG temporal interval",
+					"description": "System/database lifespan: [beginLifespanVersion, endLifespanVersion] as ISO 8601 timestamps. Use '..' for open-ended (current version).",
 					"type": "object",
 					"properties": {
 						"interval": {
 							"type": "array",
-							"description": "[beginLifespanVersion, endLifespanVersion] - ISO 8601 timestamps",
+							"description": "[beginLifespanVersion, endLifespanVersion]",
 							"minItems": 2,
 							"maxItems": 2,
 							"items": {
-								"type": [
-									"string",
-									"null"
-								],
-								"format": "date-time"
+								"oneOf": [
+									{ "type": "string", "format": "date-time" },
+									{ "type": "string", "format": "date" },
+									{ "type": "string", "const": ".." }
+								]
 							}
 						}
 					},
-					"required": [
-						"interval"
-					]
+					"required": ["interval"]
 				},
 				"realWorldLifespanVersion": {
-					"description": "Maps LADM beginRealWorldLifespanVersion and endRealWorldLifespanVersion to JSON-FG temporal interval",
+					"description": "Real-world lifespan: [beginRealWorldLifespanVersion, endRealWorldLifespanVersion]. For spatial features this maps to the JSON-FG 'time' block. Use '..' for open-ended.",
 					"type": "object",
 					"properties": {
 						"interval": {
 							"type": "array",
-							"description": "[beginRealWorldLifespanVersion, endRealWorldLifespanVersion] - ISO 8601 timestamps",
+							"description": "[beginRealWorldLifespanVersion, endRealWorldLifespanVersion]",
 							"minItems": 2,
 							"maxItems": 2,
 							"items": {
-								"type": [
-									"string",
-									"null"
-								],
-								"format": "date-time"
+								"oneOf": [
+									{ "type": "string", "format": "date-time" },
+									{ "type": "string", "format": "date" },
+									{ "type": "string", "const": ".." }
+								]
 							}
 						}
 					},
-					"required": [
-						"interval"
-					]
+					"required": ["interval"]
 				},
 				"properties": {
 					"type": "object",
 					"properties": {
 						"quality": {
-							"description": "LADM Quality attribute (DQ_Element)",
+							"description": "LADM Quality attribute (DQ_Element per ISO 19157)",
 							"$ref": "./datatypes.json#/$defs/DQ_Quality"
 						},
 						"beginLifespanSource": {
-							"description": "The source document that initiated this version (creates the beginLifespanVersion)",
-							"$ref": "#/$defs/SourceReference"
+							"description": "The LA_Source (process/document) that created this version. Must be present when lifespanVersion is set. W3C PROV alignment: rdfs:subPropertyOf prov:wasGeneratedBy — the Activity (LA_Source) generated this Entity (VersionedObject version).",
+							"$ref": "./datatypes.json#/$defs/SourceRef"
 						},
 						"endLifespanSource": {
-							"description": "The source document that retired this version (creates the endLifespanVersion)",
-							"$ref": "#/$defs/SourceReference"
+							"description": "The LA_Source (process/document) that retired this version. Must be present when lifespanVersion interval end is set. W3C PROV alignment: rdfs:subPropertyOf prov:wasInvalidatedBy.",
+							"$ref": "./datatypes.json#/$defs/SourceRef"
+						},
+						"derivedFrom": {
+							"description": "The predecessor object(s) from which this version was derived (W3C PROV prov:wasDerivedFrom). Used for cadastral mutations that produce new objects from existing ones: parcel split (one predecessor, two successors), amalgamation (two predecessors, one successor), volumetric subdivision (parent lot → stratum units). Each predecessor that ceases to exist as a result should also appear in the driving LA_Source's 'voidedObjects'. When the derivation is a simple update of the same real-world object (resurvey, attribute correction), use 'revisedFrom' instead.",
+							"type": "array",
+							"items": {
+								"$ref": "./datatypes.json#/$defs/FeatureRef"
+							}
+						},
+						"revisedFrom": {
+							"description": "The immediately preceding version of the same real-world object (W3C PROV prov:wasRevisionOf — a subproperty of prov:wasDerivedFrom). Used when an LADM object is updated while retaining its cadastral identity: boundary resurvey of an existing parcel, administrative attribute correction, coordinate adjustment after datum shift. Unlike 'derivedFrom' (which implies the predecessor becomes a different identity or ceases to exist), 'revisedFrom' is always a single prior version of the same feature.",
+							"$ref": "./datatypes.json#/$defs/FeatureRef"
 						}
 					}
 				}
-			}
+			},
+			"allOf": [
+				{
+					"$comment": "CO-OCCURRENCE: If lifespanVersion is present, beginLifespanSource must also be present in properties",
+					"if": {
+						"required": ["lifespanVersion"]
+					},
+					"then": {
+						"properties": {
+							"properties": {
+								"required": ["beginLifespanSource"]
+							}
+						}
+					}
+				},
+				{
+					"$comment": "CO-OCCURRENCE: If endLifespanSource is present in properties, lifespanVersion must also be present",
+					"if": {
+						"properties": {
+							"properties": {
+								"required": ["endLifespanSource"]
+							}
+						}
+					},
+					"then": {
+						"required": ["lifespanVersion"]
+					}
+				}
+			]
 		}
 	}
 }

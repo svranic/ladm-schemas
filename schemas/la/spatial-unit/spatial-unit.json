@@ -1,0 +1,276 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"title": "LADM LA_SpatialUnit Profile (JSON-FG)",
+	"description": "Implementation of LADM Spatial Unit package extending LA_Feature (JSON-FG 1.0.0 + VersionedObject). Exactly one spatial representation is active per instance, declared by 'representationType': geometrical (place geometry), topological (boundary face string references), or textual (legal description).",
+
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Extends LA_Feature base (JSON-FG 1.0.0 + VersionedObject)",
+			"$ref": "../core/feature.json"
+		},
+		{
+			"$comment": "2. CONSTRAINTS & EXTENSIONS: Spatial Unit specific properties",
+			"type": "object",
+			"properties": {
+				"featureType": {
+					"const": "LA_SpatialUnit",
+					"description": "Discriminator identifying this as a Cadastral Spatial Unit"
+				},
+				"coordRefSys": {
+					"description": "Default CRS for the 'place' geometry (e.g., EPSG:3765). Required when representationType is 'geometrical'.",
+					"type": "string",
+					"default": "urn:ogc:def:crs:EPSG::3765"
+				},
+				"properties": {
+					"type": "object",
+					"required": ["suID", "dimension", "representationType"],
+					"properties": {
+						"suID": {
+							"description": "LADM domain identifier (Namespace + LocalId). Complements the root-level 'id' (UUID/URI).",
+							"type": "string"
+						},
+						"label": {
+							"description": "Cartographic label / official parcel reference (e.g. '123/1')",
+							"type": "string"
+						},
+						"dimension": {
+							"description": "LA_DimensionType — declared spatial dimensionality of this unit",
+							"type": "string",
+							"enum": ["0D", "1D", "2D", "3D", "liminal"]
+						},
+						"representationType": {
+							"description": "Declares how this spatial unit's extent is expressed. Exactly one representation is active per instance. 'geometrical': a coordinate-based geometry in 'place'; 'topological': closed boundary expressed as references to LA_BoundaryFaceString features; 'textual': legal/metes-and-bounds description.",
+							"type": "string",
+							"enum": ["geometrical", "topological", "textual"]
+						},
+						"area": {
+							"description": "LA_AreaValue [0..*]. Required for 2D and 3D spatial units regardless of representation type.",
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/LA_AreaValue"
+							},
+							"minItems": 0
+						},
+						"referencePoint": {
+							"description": "Representative point inside the spatial unit (for labelling / centroid queries). Always in native CRS.",
+							"$ref": "https://schemas.opengis.net/json-fg/geometry-object.json#/$defs/Point"
+						},
+						"landUse": {
+							"description": "Reference to Land Use CodeList (SKOS concept via theme pattern)",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"spatialSource": {
+							"description": "Reference to LA_SpatialSource (Survey/Document) [0..*]",
+							"type": "array",
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/SourceRef"
+							}
+						},
+						"boundaryFaceStrings": {
+							"description": "References to LA_BoundaryFaceString features whose directed curves together form the closed boundary of this spatial unit. Required when representationType is 'topological'. The ordering and direction of curves must form a closed ring.",
+							"type": "array",
+							"minItems": 3,
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+							}
+						},
+						"legalDescription": {
+							"description": "Textual/legal description of the spatial unit's extent (metes-and-bounds, parcel reference, etc.). Required when representationType is 'textual'.",
+							"type": "object",
+							"required": ["text"],
+							"properties": {
+								"text": {
+									"description": "The legal description text",
+									"type": "string"
+								},
+								"language": {
+									"description": "BCP-47 language tag (e.g. 'hr', 'en', 'de')",
+									"type": "string",
+									"pattern": "^[a-z]{2,3}(-[A-Z]{2,3})?$"
+								},
+								"notation": {
+									"description": "Type of textual notation used",
+									"type": "string",
+									"enum": ["metesAndBounds", "coordinateDescription", "parcelReference", "other"]
+								}
+							}
+						},
+						"lifespanVersion": {
+							"description": "System/database lifespan of this spatial unit version (LADM beginLifespanVersion / endLifespanVersion).",
+							"type": "object",
+							"required": ["interval"],
+							"properties": {
+								"interval": {
+									"type": "array",
+									"minItems": 2,
+									"maxItems": 2,
+									"items": {
+										"oneOf": [
+											{ "type": "string", "format": "date-time" },
+											{ "type": "string", "format": "date" },
+											{ "type": "string", "const": ".." }
+										]
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"required": ["featureType", "properties"]
+		},
+		{
+			"$comment": "--- RULE: geometrical → place required; dimension constrains allowed geometry types ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"representationType": { "const": "geometrical" }
+						}
+					}
+				}
+			},
+			"then": {
+				"required": ["place"],
+				"properties": {
+					"place": { "not": { "type": "null" } }
+				},
+				"allOf": [
+					{
+						"$comment": "2D dimension: only flat geometry types permitted",
+						"if": {
+							"properties": {
+								"properties": {
+									"properties": { "dimension": { "const": "2D" } }
+								}
+							}
+						},
+						"then": {
+							"properties": {
+								"place": {
+									"type": "object",
+									"required": ["type"],
+									"properties": {
+										"type": {
+											"type": "string",
+											"enum": ["Point", "MultiPoint", "LineString", "MultiLineString", "Polygon", "MultiPolygon"]
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"$comment": "3D dimension: only volumetric geometry types permitted",
+						"if": {
+							"properties": {
+								"properties": {
+									"properties": { "dimension": { "const": "3D" } }
+								}
+							}
+						},
+						"then": {
+							"properties": {
+								"place": {
+									"type": "object",
+									"required": ["type"],
+									"properties": {
+										"type": {
+											"type": "string",
+											"enum": ["Polyhedron", "MultiPolyhedron", "Prism", "MultiPrism"]
+										}
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"$comment": "--- RULE: topological → place must be null/absent; boundaryFaceStrings required ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"representationType": { "const": "topological" }
+						}
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"place": { "type": "null" },
+					"properties": {
+						"required": ["boundaryFaceStrings"]
+					}
+				}
+			}
+		},
+		{
+			"$comment": "--- RULE: textual → place must be null/absent; legalDescription required ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"representationType": { "const": "textual" }
+						}
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"place": { "type": "null" },
+					"properties": {
+						"required": ["legalDescription"]
+					}
+				}
+			}
+		},
+		{
+			"$comment": "--- RULE: 2D/3D AREA REQUIREMENT (applies to all representation types) ---",
+			"if": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"dimension": { "enum": ["2D", "3D"] }
+						}
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"properties": {
+						"properties": {
+							"area": { "minItems": 1 }
+						}
+					}
+				}
+			}
+		}
+	],
+
+	"$defs": {
+		"LA_AreaValue": {
+			"type": "object",
+			"description": "Structured area measurement with unit of measure referenced via CodeListRef (QUDT or OGC Units registry)",
+			"required": ["measurement", "type", "uom"],
+			"properties": {
+				"measurement": {
+					"type": "number",
+					"exclusiveMinimum": 0
+				},
+				"type": {
+					"type": "string",
+					"enum": ["officialArea", "calculatedArea", "surveyedArea"],
+					"default": "officialArea"
+				},
+				"uom": {
+					"description": "Unit of measure via CodeListRef. Recommended scheme: QUDT (https://qudt.org/vocab/unit/) or OGC Units of Measure (https://www.opengis.net/def/uom/). Common units: http://qudt.org/vocab/unit/M2, http://qudt.org/vocab/unit/HectoARE, http://qudt.org/vocab/unit/KiloM2",
+					"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+				}
+			}
+		}
+	}
+}

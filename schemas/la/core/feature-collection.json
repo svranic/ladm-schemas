@@ -1,0 +1,38 @@
+﻿{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/feature-collection.json",
+	"title": "LADM LA_FeatureCollection (JSON-FG 1.0.0 Profile)",
+	"description": "Base schema for LADM feature collections. The 'coordRefSys' at collection level is authoritative and applies to all features unless overridden at feature level. Individual typed collections can restrict the 'features' array to a specific LADM feature type by extending this schema with an 'allOf' override of 'features.items'.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: OGC JSON-FG FeatureCollection 1.0.0",
+			"$ref": "https://schemas.opengis.net/json-fg/featurecollection.json"
+		},
+		{
+			"$comment": "LADM FeatureCollection constraints",
+			"type": "object",
+			"required": [
+				"type",
+				"coordRefSys",
+				"features"
+			],
+			"properties": {
+				"type": {
+					"const": "FeatureCollection"
+				},
+				"coordRefSys": {
+					"description": "Authoritative CRS for all features in this collection (OGC URI). Individual features may override at feature level.",
+					"type": "string"
+				},
+				"features": {
+					"type": "array",
+					"description": "Array of LADM features. Override 'features.items' in a typed collection to restrict to a specific featureType.",
+					"items": {
+						"$ref": "./feature.json"
+					}
+				}
+			}
+		}
+	]
+}

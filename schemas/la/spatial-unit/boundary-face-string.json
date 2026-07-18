@@ -1,0 +1,102 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/boundary-face-string.json",
+	"title": "LADM LA_BoundaryFaceString (JSON-FG)",
+	"description": "A directed linear boundary element (curve) that separates two adjacent spatial units. The direction of the LineString defines left/right adjacency: the spatial unit to the left of the directed curve is 'leftUnit'; to the right is 'rightUnit'. A closed spatial unit boundary is formed by an ordered set of LA_BoundaryFaceString instances referenced from LA_SpatialUnit.properties.boundaryFaceStrings. Shared edges between adjacent parcels are stored only once.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: Extends LA_Feature base (JSON-FG 1.0.0 + VersionedObject)",
+			"$ref": "../core/feature.json"
+		},
+		{
+			"$comment": "CONSTRAINTS & EXTENSIONS: BoundaryFaceString specific properties",
+			"type": "object",
+			"required": ["featureType", "place", "properties"],
+			"properties": {
+				"featureType": {
+					"const": "LA_BoundaryFaceString",
+					"description": "Discriminator identifying this as a directed cadastral boundary segment"
+				},
+				"coordRefSys": {
+					"description": "CRS for the 'place' geometry. Inherits from FeatureCollection if omitted.",
+					"type": "string"
+				},
+				"place": {
+					"description": "The directed linear geometry of this boundary segment. Must be a LineString or MultiLineString. Direction determines left/right unit assignment.",
+					"type": "object",
+					"required": ["type", "coordinates"],
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["LineString", "MultiLineString"]
+						},
+						"coordinates": {
+							"type": "array",
+							"minItems": 2
+						}
+					}
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"description": "Boundary type (e.g. cadastralBoundary, administrativeBoundary, road, waterCourse). References a CodeList such as LA_BoundaryFaceStringType.",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"isDirected": {
+							"description": "If true (default), the direction of the LineString is significant: left/right unit assignments are relative to the curve direction. If false, the curve is undirected and leftUnit/rightUnit are interchangeable.",
+							"type": "boolean",
+							"default": true
+						},
+						"leftUnit": {
+							"description": "The spatial unit to the left of this directed boundary. Absent if the boundary is on the outer edge of the cadastral coverage (no left neighbour).",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						},
+						"rightUnit": {
+							"description": "The spatial unit to the right of this directed boundary. Absent if the boundary is on the outer edge of the cadastral coverage (no right neighbour).",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						},
+						"spatialSource": {
+							"description": "References to the spatial source(s) (surveys) that determined this boundary",
+							"type": "array",
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/SourceRef"
+							}
+						},
+						"lifespanVersion": {
+							"description": "System/database lifespan of this boundary face string version",
+							"type": "object",
+							"required": ["interval"],
+							"properties": {
+								"interval": {
+									"type": "array",
+									"minItems": 2,
+									"maxItems": 2,
+									"items": {
+										"oneOf": [
+											{ "type": "string", "format": "date-time" },
+											{ "type": "string", "format": "date" },
+											{ "type": "string", "const": ".." }
+										]
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"$comment": "--- RULE: at least one of leftUnit or rightUnit must be declared ---",
+			"properties": {
+				"properties": {
+					"anyOf": [
+						{ "required": ["leftUnit"] },
+						{ "required": ["rightUnit"] }
+					]
+				}
+			}
+		}
+	]
+}

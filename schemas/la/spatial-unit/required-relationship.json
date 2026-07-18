@@ -1,0 +1,55 @@
+﻿{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/required-relationship.json",
+	"title": "LADM LA_RequiredRelationship",
+	"description": "Legal derogation record declaring the topologically intended relationship between two spatial units (su1 and su2) when surveyed geometry is inaccurate. Instances override geometry-derived topology with the legally correct relationship. A collection of these instances can be exposed as a queryable OGC API - Features derogation registry (e.g. GET /collections/required-relationships/items?su1={id}).",
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Is a Versioned Object (History)",
+			"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "2. PROPERTIES: Relationship Definition",
+			"type": "object",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"required": [
+						"relationship",
+						"su1",
+						"su2"
+					],
+					"properties": {
+						"relationship": {
+							"description": "DE-9IM topological predicate (ISO 19125-2) declaring the legally intended spatial relationship between su1 and su2. Used when surveyed geometry is inaccurate and does not reflect the correct relationship. 'covers' and 'coveredBy' are the strict containment predicates aligned with PostGIS/JTS/GEOS implementations.",
+							"type": "string",
+							"enum": [
+								"equals",
+								"disjoint",
+								"intersects",
+								"touches",
+								"crosses",
+								"within",
+								"contains",
+								"overlaps",
+								"covers",
+								"coveredBy"
+							]
+						},
+						"su1": {
+							"description": "Typed reference to the first Spatial Unit",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						},
+						"su2": {
+							"description": "Typed reference to the second Spatial Unit",
+							"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+						}
+					}
+				}
+			},
+			"required": [
+				"properties"
+			]
+		}
+	]
+}

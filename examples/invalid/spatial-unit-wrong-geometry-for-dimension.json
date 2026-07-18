@@ -1,0 +1,26 @@
+﻿{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"_invalid_reason": "dimension is '2D' but 'place' uses a 3D-only geometry type (Polyhedron) — should fail the dimension/geometry enforcement rule",
+	"type": "Feature",
+	"id": "550e8400-e29b-41d4-a716-446655440002",
+	"featureType": "LA_SpatialUnit",
+	"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+	"place": {
+		"type": "Polyhedron",
+		"coordinates": []
+	},
+	"properties": {
+		"suID": "HR.DGU.CGP/1234-99999",
+		"dimension": "2D",
+		"area": [
+			{
+				"measurement": 500.0,
+				"type": "officialArea",
+				"uom": {
+					"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+					"scheme": "https://qudt.org/vocab/unit/"
+				}
+			}
+		]
+	}
+}

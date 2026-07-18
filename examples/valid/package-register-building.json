@@ -1,0 +1,373 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/submission-package.json",
+	"submissionId": "SUB-2024-00321",
+	"submittedAt": "2024-06-01T09:00:00Z",
+	"submittedBy": {
+		"name": "Ovlašteni inženjer geodezije Marko Novak",
+		"organization": "GeoSurvey d.o.o.",
+		"roles": ["principalInvestigator"],
+		"emails": [{ "value": "m.novak@geosurvey.hr" }]
+	},
+	"description": "Registration of new building at Ilica 42, Zagreb — building footprint survey (total station) and building permit BP-2024-00123. Building corners become registered LA_Point objects. Auxiliary points of neighbouring lot measured for context only.",
+
+	"sources": [
+		{
+			"sourceType": "spatialSource",
+			"sID": { "localId": "SP-2024-00321", "namespace": "HR.GEOSURVEY.NOVAK" },
+			"availabilityStatus": "incomplete",
+			"maintype": "mapDigital",
+			"procedure": "totalStation",
+			"submission": "2024-06-01T09:00:00Z",
+			"source": [{
+				"name": "Ovlašteni inženjer geodezije Marko Novak",
+				"roles": ["principalInvestigator"],
+				"organization": "GeoSurvey d.o.o."
+			}],
+			"measurements": [
+				{
+					"localId": "PT-B01",
+					"pointType": "building",
+					"coordinates": [552100.00, 4981200.00],
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					},
+					"note": "Building corner NW — to be registered as LA_Point"
+				},
+				{
+					"localId": "PT-B02",
+					"pointType": "building",
+					"coordinates": [552155.00, 4981200.00],
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					},
+					"note": "Building corner NE — to be registered as LA_Point"
+				},
+				{
+					"localId": "PT-B03",
+					"pointType": "building",
+					"coordinates": [552155.00, 4981150.00],
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					},
+					"note": "Building corner SE — to be registered as LA_Point"
+				},
+				{
+					"localId": "PT-B04",
+					"pointType": "building",
+					"coordinates": [552100.00, 4981150.00],
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					},
+					"note": "Building corner SW — to be registered as LA_Point"
+				},
+				{
+					"localId": "PT-A01",
+					"pointType": "auxiliary",
+					"coordinates": [552200.00, 4981250.00],
+					"note": "Corner of neighbouring lot — measured for context, not to be registered"
+				},
+				{
+					"localId": "PT-A02",
+					"pointType": "auxiliary",
+					"coordinates": [552050.00, 4981100.00],
+					"note": "Road kerb reference point — measured for context"
+				},
+				{
+					"localId": "PT-C01",
+					"pointType": "control",
+					"coordinates": [552000.00, 4981000.00],
+					"note": "Total station setup point — trigonometric point HR-T-5543"
+				}
+			],
+			"assets": {
+				"sketch": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-sketch.pdf",
+					"type": "application/pdf",
+					"title": "Field sketch — Building Ilica 42",
+					"roles": ["sketch", "overview"]
+				},
+				"adjusted-coordinates": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-points.geojson",
+					"type": "application/geo+json",
+					"title": "Adjusted building corner coordinates",
+					"roles": ["data"]
+				},
+				"survey-report": {
+					"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-report.pdf",
+					"type": "application/pdf",
+					"title": "Survey Technical Report SP-2024-00321",
+					"roles": ["report"]
+				}
+			},
+			"createdObjects": [
+				{
+					"featureType": "LA_Point",
+					"id": "f1aa001b-0001-0001-0001-000000000001",
+					"title": "Building corner NW PT-B01"
+				},
+				{
+					"featureType": "LA_Point",
+					"id": "f1aa001b-0001-0001-0001-000000000002",
+					"title": "Building corner NE PT-B02"
+				},
+				{
+					"featureType": "LA_Point",
+					"id": "f1aa001b-0001-0001-0001-000000000003",
+					"title": "Building corner SE PT-B03"
+				},
+				{
+					"featureType": "LA_Point",
+					"id": "f1aa001b-0001-0001-0001-000000000004",
+					"title": "Building corner SW PT-B04"
+				},
+				{
+					"featureType": "LA_SpatialUnit",
+					"id": "e7ff513i-cf3d-7ccc-d356-egh8i0987446",
+					"title": "Building footprint Ilica 42"
+				}
+			],
+			"voidedObjects": []
+		},
+		{
+			"sourceType": "administrativeSource",
+			"sID": { "localId": "BP-2024-00123", "namespace": "HR.GZ.UPU" },
+			"availabilityStatus": "docAvailable",
+			"maintype": "documentDigital",
+			"type": {
+				"concepts": [{ "id": "buildingPermit", "title": "Building Permit" }],
+				"scheme": "https://cadastre.gov.hr/codelist/adminSourceType"
+			},
+			"submission": "2024-06-01T09:00:00Z",
+			"acceptance": "2024-06-10T12:00:00Z",
+			"recordation": "2024-06-11T08:00:00Z",
+			"source": [{
+				"name": "Grad Zagreb — Upravni odjel za prostorno uređenje",
+				"roles": ["resourceProvider"],
+				"organization": "Grad Zagreb"
+			}],
+			"createdObjects": [
+				{
+					"featureType": "LA_BAUnit",
+					"id": "f8gg624j-dg4e-8ddd-e467-fhi9j1098557",
+					"title": "BAUnit for building Ilica 42"
+				},
+				{
+					"featureType": "LA_Right",
+					"id": "g9hh735k-eh5f-9eee-f578-gij0k2109668",
+					"title": "Ownership right — building Ilica 42"
+				}
+			],
+			"voidedObjects": []
+		}
+	],
+
+	"spatialFeatures": {
+		"type": "FeatureCollection",
+		"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+		"features": [
+			{
+				"type": "Feature",
+				"id": "f1aa001b-0001-0001-0001-000000000001",
+				"featureType": "LA_Point",
+				"place": { "type": "Point", "coordinates": [552100.00, 4981200.00] },
+				"geometry": { "type": "Point", "coordinates": [15.9871, 44.9523] },
+				"time": { "interval": ["2024-06-11T08:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "BPT-001-B01", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "building", "title": "Building corner" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					}
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "f1aa001b-0001-0001-0001-000000000002",
+				"featureType": "LA_Point",
+				"place": { "type": "Point", "coordinates": [552155.00, 4981200.00] },
+				"geometry": { "type": "Point", "coordinates": [15.9878, 44.9523] },
+				"time": { "interval": ["2024-06-11T08:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "BPT-001-B02", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "building", "title": "Building corner" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					}
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "f1aa001b-0001-0001-0001-000000000003",
+				"featureType": "LA_Point",
+				"place": { "type": "Point", "coordinates": [552155.00, 4981150.00] },
+				"geometry": { "type": "Point", "coordinates": [15.9878, 44.9519] },
+				"time": { "interval": ["2024-06-11T08:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "BPT-001-B03", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "building", "title": "Building corner" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					}
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "f1aa001b-0001-0001-0001-000000000004",
+				"featureType": "LA_Point",
+				"place": { "type": "Point", "coordinates": [552100.00, 4981150.00] },
+				"geometry": { "type": "Point", "coordinates": [15.9871, 44.9519] },
+				"time": { "interval": ["2024-06-11T08:00:00Z", ".."] },
+				"properties": {
+					"ptID": { "localId": "BPT-001-B04", "namespace": "HR.DGU.CGP" },
+					"pointType": {
+						"concepts": [{ "id": "building", "title": "Building corner" }],
+						"scheme": "https://cadastre.gov.hr/codelist/pointType"
+					},
+					"accuracy": {
+						"type": {
+							"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+							"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+						},
+						"result": { "value": 0.03, "unit": "m" }
+					}
+				}
+			},
+			{
+				"type": "Feature",
+				"id": "e7ff513i-cf3d-7ccc-d356-egh8i0987446",
+				"featureType": "LA_SpatialUnit",
+				"place": {
+					"type": "Polygon",
+					"coordinates": [[
+						[552100.00, 4981200.00],
+						[552155.00, 4981200.00],
+						[552155.00, 4981150.00],
+						[552100.00, 4981150.00],
+						[552100.00, 4981200.00]
+					]]
+				},
+				"geometry": {
+					"type": "Polygon",
+					"coordinates": [[
+						[15.9871, 44.9523],
+						[15.9878, 44.9523],
+						[15.9878, 44.9519],
+						[15.9871, 44.9519],
+						[15.9871, 44.9523]
+					]]
+				},
+				"time": { "interval": ["2024-06-11T08:00:00Z", ".."] },
+				"properties": {
+					"suID": "HR.DGU.CGP/BLD-2024-00001",
+					"label": "Ilica 42",
+					"dimension": "2D",
+					"representationType": "geometrical",
+					"area": [{
+						"measurement": 2750.0,
+						"type": "calculatedArea",
+						"uom": {
+							"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+							"scheme": "https://qudt.org/vocab/unit/"
+						}
+					}],
+					"spatialSource": [{ "id": "SP-2024-00321", "featureType": "LA_SpatialSource" }]
+				}
+			}
+		]
+	},
+
+	"parties": [],
+
+	"baUnits": [
+		{
+			"id": "f8gg624j-dg4e-8ddd-e467-fhi9j1098557",
+			"properties": {
+				"buID": { "localId": "BU-2024-00020", "namespace": "HR.DGU.CGP" },
+				"name": "Zgrada Ilica 42, Zagreb",
+				"type": {
+					"concepts": [{ "id": "legalSpaceBuilding", "title": "Legal Space Building" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_BAUnitType"
+				},
+				"su": [{
+					"featureType": "LA_SpatialUnit",
+					"id": "e7ff513i-cf3d-7ccc-d356-egh8i0987446",
+					"title": "Building footprint Ilica 42"
+				}],
+				"rrr": [{
+					"featureType": "LA_Right",
+					"id": "g9hh735k-eh5f-9eee-f578-gij0k2109668",
+					"title": "Ownership right"
+				}],
+				"beginLifespanSource": "https://api.cadastre.gov.hr/sources/BP-2024-00123"
+			},
+			"lifespanVersion": { "interval": ["2024-06-11T08:00:00Z", ".."] }
+		}
+	],
+
+	"rrrs": [
+		{
+			"id": "g9hh735k-eh5f-9eee-f578-gij0k2109668",
+			"properties": {
+				"rID": { "localId": "R-2024-00020", "namespace": "HR.DGU.CGP" },
+				"rrrType": "right",
+				"type": {
+					"concepts": [{ "id": "ownership", "title": "Ownership" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_RightType"
+				},
+				"description": "Ownership of building Ilica 42 established by building permit BP-2024-00123",
+				"share": { "numerator": 1, "denominator": 1 },
+				"shareCheck": true,
+				"party": {
+					"featureType": "LA_Party",
+					"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"href": "https://api.cadastre.gov.hr/collections/parties/items/a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"title": "Ivan Horvat (building owner)"
+				},
+				"unit": {
+					"featureType": "LA_BAUnit",
+					"id": "f8gg624j-dg4e-8ddd-e467-fhi9j1098557",
+					"title": "BAUnit for building Ilica 42"
+				},
+				"beginLifespanSource": "https://api.cadastre.gov.hr/sources/BP-2024-00123"
+			},
+			"lifespanVersion": { "interval": ["2024-06-11T08:00:00Z", ".."] }
+		}
+	]
+}
