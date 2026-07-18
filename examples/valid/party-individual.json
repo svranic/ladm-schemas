@@ -1,0 +1,31 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/party.json",
+	"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+	"properties": {
+		"pID": {
+			"localId": "P-2024-00001",
+			"namespace": "HR.DGU.CGP"
+		},
+		"name": "Ivan Horvat",
+		"type": {
+			"concepts": [{ "id": "individual", "title": "Individual" }],
+			"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_PartyType"
+		},
+		"roles": [
+			{
+				"concepts": [{ "id": "owner", "title": "Owner" }],
+				"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_PartyRoleType"
+			}
+		],
+		"extPID": {
+			"value": "12345678901",
+			"type": {
+				"concepts": [{ "id": "OIB", "title": "Croatian Personal Identification Number" }],
+				"scheme": "https://cadastre.gov.hr/codelist/partyIdentifierType"
+			}
+		}
+	},
+	"lifespanVersion": {
+		"interval": ["2024-03-15T00:00:00Z", ".."]
+	}
+}

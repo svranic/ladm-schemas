@@ -1,0 +1,50 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/boundary-face-string.json",
+	"type": "Feature",
+	"id": "bfs-0001-0001-0001-0001-000000000001",
+	"featureType": "LA_BoundaryFaceString",
+	"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+	"place": {
+		"type": "LineString",
+		"coordinates": [
+			[551234.12, 4980123.45],
+			[551261.90, 4980123.45]
+		]
+	},
+	"geometry": {
+		"type": "LineString",
+		"coordinates": [
+			[15.9762, 44.9471],
+			[15.9787, 44.9471]
+		]
+	},
+	"time": { "interval": ["2024-09-06T08:00:00Z", ".."] },
+	"properties": {
+		"type": {
+			"concepts": [{ "id": "cadastralBoundary", "title": "Cadastral boundary" }],
+			"scheme": "https://cadastre.gov.hr/codelist/boundaryType"
+		},
+		"isDirected": true,
+		"leftUnit": {
+			"featureType": "LA_SpatialUnit",
+			"id": "h0ii846l-fi6g-0fff-g689-hij1l3210779",
+			"title": "Parcel 1234/6 (west)"
+		},
+		"rightUnit": {
+			"featureType": "LA_SpatialUnit",
+			"id": "550e8400-e29b-41d4-a716-446655440000",
+			"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+			"title": "Public road right-of-way (north)"
+		},
+		"spatialSource": [
+			{
+				"sourceType": "spatialSource",
+				"sID": { "localId": "SP-2024-00456", "namespace": "HR.GEOSURVEY.NOVAK" },
+				"availabilityStatus": "docAvailable"
+			}
+		],
+		"lifespanVersion": {
+			"interval": ["2024-09-06T08:00:00Z", ".."]
+		}
+	}
+}

@@ -1,0 +1,209 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source/spatial-source.json",
+	"_description": "Process example: Cadastral parcel split (subdivision). A GNSS survey establishes the new split boundary. The spatial source contains: (1) the new split-line corner point (type 'boundary' — becomes a registered LA_Point), (2) existing parcel corners re-surveyed for verification (type 'boundary', already registered — see registeredPoint), and (3) measured points of the neighbouring parcel and a control point (type 'auxiliary'/'control' — stored in spatial source only, not registered). Two new parcels and BAUnits are created with client-generated UUIDs. The original parcel and its BAUnit are voided (existing objects with href).",
+
+	"sourceType": "spatialSource",
+	"sID": {
+		"localId": "SP-2024-00456",
+		"namespace": "HR.GEOSURVEY.NOVAK"
+	},
+	"availabilityStatus": "incomplete",
+	"maintype": "mapDigital",
+	"procedure": "GNSS",
+	"submission": "2024-09-01T08:00:00Z",
+	"source": [
+		{
+			"name": "Ovlašteni inženjer geodezije Marko Novak",
+			"roles": ["principalInvestigator"],
+			"organization": "GeoSurvey d.o.o.",
+			"emails": [{ "value": "m.novak@geosurvey.hr" }]
+		}
+	],
+	"measurements": [
+		{
+			"localId": "PT-001",
+			"pointType": "boundary",
+			"coordinates": [551234.12, 4980123.45],
+			"monumentation": {
+				"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.05, "unit": "m" }
+			},
+			"registeredPoint": {
+				"featureType": "LA_Point",
+				"id": "aa000001-0001-0001-0001-000000000001",
+				"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000001",
+				"title": "Existing corner NW — re-surveyed for verification"
+			}
+		},
+		{
+			"localId": "PT-002",
+			"pointType": "boundary",
+			"coordinates": [551289.67, 4980123.45],
+			"monumentation": {
+				"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.05, "unit": "m" }
+			},
+			"registeredPoint": {
+				"featureType": "LA_Point",
+				"id": "aa000001-0001-0001-0001-000000000002",
+				"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000002",
+				"title": "Existing corner NE — re-surveyed for verification"
+			}
+		},
+		{
+			"localId": "PT-010",
+			"pointType": "boundary",
+			"coordinates": [551261.90, 4980123.45],
+			"monumentation": {
+				"concepts": [{ "id": "concreteMonument", "title": "Concrete monument" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.02, "unit": "m" }
+			},
+			"note": "NEW split-line corner — to be registered as new LA_Point after acceptance"
+		},
+		{
+			"localId": "PT-003",
+			"pointType": "boundary",
+			"coordinates": [551289.67, 4980078.90],
+			"monumentation": {
+				"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.05, "unit": "m" }
+			},
+			"registeredPoint": {
+				"featureType": "LA_Point",
+				"id": "aa000001-0001-0001-0001-000000000003",
+				"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000003",
+				"title": "Existing corner SE — re-surveyed for verification"
+			}
+		},
+		{
+			"localId": "PT-004",
+			"pointType": "boundary",
+			"coordinates": [551234.12, 4980078.90],
+			"monumentation": {
+				"concepts": [{ "id": "ironPeg", "title": "Iron peg" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.05, "unit": "m" }
+			},
+			"registeredPoint": {
+				"featureType": "LA_Point",
+				"id": "aa000001-0001-0001-0001-000000000004",
+				"href": "https://api.cadastre.gov.hr/collections/points/items/aa000001-0001-0001-0001-000000000004",
+				"title": "Existing corner SW — re-surveyed for verification"
+			}
+		},
+		{
+			"localId": "PT-A01",
+			"pointType": "auxiliary",
+			"coordinates": [551310.00, 4980150.00],
+			"note": "Corner of neighbouring parcel 1234/3 — measured to verify boundary agreement, not to be registered"
+		},
+		{
+			"localId": "PT-A02",
+			"pointType": "auxiliary",
+			"coordinates": [551210.00, 4980150.00],
+			"note": "Corner of neighbouring parcel 1235/1 — measured for sketch context, not to be registered"
+		},
+		{
+			"localId": "PT-C01",
+			"pointType": "control",
+			"coordinates": [551500.00, 4980500.00],
+			"note": "GNSS base station — trigonometric point HR-T-4892, used as reference for RTK survey"
+		}
+	],
+	"assets": {
+		"sketch": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-sketch.pdf",
+			"type": "application/pdf",
+			"title": "Geodetic Elaborat — Parcel Split SP-2024-00456",
+			"roles": ["sketch", "overview"],
+			"description": "Official cadastral split plan showing original parcel, split line, new parcels, boundary points, and neighbouring parcels"
+		},
+		"gnss-raw": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456.rinex",
+			"type": "application/octet-stream",
+			"title": "GNSS Raw Observations (RINEX 3.04)",
+			"roles": ["gnss-log", "data"]
+		},
+		"adjusted-points": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00456-points.geojson",
+			"type": "application/geo+json",
+			"title": "Adjusted boundary point coordinates",
+			"roles": ["data"]
+		}
+	},
+	"createdObjects": [
+		{
+			"featureType": "LA_Point",
+			"id": "bb000010-0010-0010-0010-000000000010",
+			"title": "New split-line corner PT-010 (pending registration)"
+		},
+		{
+			"featureType": "LA_SpatialUnit",
+			"id": "h0ii846l-fi6g-0fff-g689-hij1l3210779",
+			"title": "New parcel 1234/6 — west portion (pending registration)"
+		},
+		{
+			"featureType": "LA_SpatialUnit",
+			"id": "i1jj957m-gj7h-1ggg-h790-ijk2m4321880",
+			"title": "New parcel 1234/7 — east portion (pending registration)"
+		},
+		{
+			"featureType": "LA_BAUnit",
+			"id": "j2kk068n-hk8i-2hhh-i801-jkl3n5432991",
+			"title": "BAUnit for parcel 1234/6 (pending registration)"
+		},
+		{
+			"featureType": "LA_BAUnit",
+			"id": "k3ll179o-il9j-3iii-j912-klm4o6543002",
+			"title": "BAUnit for parcel 1234/7 (pending registration)"
+		}
+	],
+	"voidedObjects": [
+		{
+			"featureType": "LA_SpatialUnit",
+			"id": "550e8400-e29b-41d4-a716-446655440000",
+			"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+			"title": "Original parcel 1234/5 — voided by split"
+		},
+		{
+			"featureType": "LA_BAUnit",
+			"id": "b4cc290f-9c0a-4999-a023-bdf5f7654113",
+			"href": "https://api.cadastre.gov.hr/collections/ba-units/items/b4cc290f-9c0a-4999-a023-bdf5f7654113",
+			"title": "BAUnit for original parcel 1234/5 — voided by split"
+		}
+	]
+}

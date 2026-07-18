@@ -33,7 +33,6 @@
 		"suID": "HR.DGU.CGP/1234-56789",
 		"label": "1234/5",
 		"dimension": "2D",
-			"representationType": "geometrical",
 		"area": [
 			{
 				"measurement": 2467.3,

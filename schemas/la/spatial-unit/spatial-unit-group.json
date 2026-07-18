@@ -1,0 +1,86 @@
+﻿{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit-group.json",
+	"title": "LADM LA_SpatialUnitGroup Profile",
+	"description": "Represents a group of spatial units (e.g., administrative districts, zones, spatial plan areas). Extends LA_Feature base (JSON-FG 1.0.0 + VersionedObject).",
+
+	"allOf": [
+		{
+			"$comment": "1. INHERITANCE: Extends LA_Feature base (JSON-FG 1.0.0 + VersionedObject)",
+			"$ref": "../core/feature.json"
+		},
+		{
+			"$comment": "2. CONSTRAINTS & EXTENSIONS: Spatial Unit Group specific properties",
+			"type": "object",
+			"properties": {
+				"type": {
+					"const": "Feature"
+				},
+				"featureType": {
+					"const": "LA_SpatialUnitGroup"
+				},
+				"properties": {
+					"type": "object",
+					"required": [
+						"sugID",
+						"hierarchyLevel",
+						"label"
+					],
+					"properties": {
+						"sugID": {
+							"description": "LADM domain identifier (Namespace + LocalId). Complements the root-level 'id' (UUID/URI).",
+							"$ref": "../core/datatypes.json#/$defs/Oid"
+						},
+						"hierarchyLevel": {
+							"description": "Level in the hierarchy (e.g., 1=Country, 2=Region, 3=Municipality)",
+							"type": "integer",
+							"minimum": 0
+						},
+						"label": {
+							"description": "Short label or code",
+							"type": "string"
+						},
+						"name": {
+							"description": "Full name of the group",
+							"type": "string"
+						},
+						"referencePoint": {
+							"description": "Center point or label point",
+							"$ref": "https://schemas.opengis.net/json-fg/geometry-object.json#/$defs/Point"
+						},
+						"element": {
+							"description": "Typed references to the Spatial Units in this group",
+							"type": "array",
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+							}
+						},
+						"lifespanVersion": {
+							"description": "System/database lifespan of this group version (LADM beginLifespanVersion / endLifespanVersion).",
+							"type": "object",
+							"properties": {
+								"interval": {
+									"type": "array",
+									"minItems": 2,
+									"maxItems": 2,
+									"items": {
+										"oneOf": [
+											{ "type": "string", "format": "date-time" },
+											{ "type": "string", "format": "date" },
+											{ "type": "string", "const": ".." }
+										]
+									}
+								}
+							},
+							"required": ["interval"]
+						}
+					}
+				}
+			},
+			"required": [
+				"featureType",
+				"properties"
+			]
+		}
+	]
+}

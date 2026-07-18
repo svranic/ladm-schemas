@@ -1,0 +1,59 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/group-party.json",
+	"title": "LADM LA_GroupParty",
+	"description": "A group of parties sharing a common interest in one or more basic administrative units (e.g. co-owners, a family group, an association, a consortium). LA_GroupParty extends LA_Party. Each member party may hold a different share of the group's collective interest.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: Extends LA_Party (which itself extends VersionedObject)",
+			"$ref": "./party.json"
+		},
+		{
+			"$comment": "EXTENSIONS: Group-specific properties",
+			"type": "object",
+			"properties": {
+				"properties": {
+					"type": "object",
+					"required": ["groupType", "members"],
+					"properties": {
+						"groupType": {
+							"description": "LA_GroupPartyType codelist. Common values: familyGroup, association, consortium, baGroup (co-ownership without formal legal entity).",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"members": {
+							"description": "Member parties of this group with their respective shares [2..*]",
+							"type": "array",
+							"minItems": 2,
+							"items": {
+								"$ref": "#/$defs/GroupPartyMember"
+							}
+						}
+					}
+				}
+			}
+		}
+	],
+
+	"$defs": {
+		"GroupPartyMember": {
+			"type": "object",
+			"description": "A party's membership in a group, including their fractional share of the collective interest",
+			"required": ["party"],
+			"properties": {
+				"party": {
+					"description": "Typed reference to the member LA_Party",
+					"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+				},
+				"share": {
+					"description": "This member's fractional share of the group's collective interest (e.g. 1/3 for equal three-way co-ownership). Omit if shares are undivided.",
+					"$ref": "../core/datatypes.json#/$defs/Fraction"
+				},
+				"shareCheck": {
+					"description": "Flag indicating the shares across all members have been verified to sum to 1",
+					"type": "boolean"
+				}
+			}
+		}
+	}
+}

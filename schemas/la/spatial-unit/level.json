@@ -1,6 +1,6 @@
-{
+﻿{
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/spatial_unit/level.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/level.json",
 	"title": "LADM LA_Level",
 	"description": "Defines a set of spatial units with the same geometric/topologic structure",
 	"allOf": [

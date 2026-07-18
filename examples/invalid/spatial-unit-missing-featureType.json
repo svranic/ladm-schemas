@@ -1,0 +1,33 @@
+﻿{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"_invalid_reason": "Missing required 'featureType' field — should fail validation",
+	"type": "Feature",
+	"id": "550e8400-e29b-41d4-a716-446655440001",
+	"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+	"place": {
+		"type": "Polygon",
+		"coordinates": [
+			[
+				[551234.12, 4980123.45],
+				[551289.67, 4980123.45],
+				[551289.67, 4980078.90],
+				[551234.12, 4980078.90],
+				[551234.12, 4980123.45]
+			]
+		]
+	},
+	"properties": {
+		"suID": "HR.DGU.CGP/1234-56789",
+		"dimension": "2D",
+		"area": [
+			{
+				"measurement": 2467.3,
+				"type": "officialArea",
+				"uom": {
+					"concepts": [{ "id": "M2", "url": "http://qudt.org/vocab/unit/M2" }],
+					"scheme": "https://qudt.org/vocab/unit/"
+				}
+			}
+		]
+	}
+}

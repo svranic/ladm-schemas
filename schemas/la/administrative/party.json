@@ -1,0 +1,69 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/party.json",
+	"title": "LADM LA_Party",
+	"description": "A party is any person or organisation that plays a role in land administration. LA_Party is the base class; LA_GroupParty (a collection of parties with a shared interest) extends it.",
+
+	"allOf": [
+		{
+			"$comment": "INHERITANCE: LADM VersionedObject (lifecycle tracking)",
+			"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+		},
+		{
+			"$comment": "LA_Party properties",
+			"type": "object",
+			"required": ["id", "properties"],
+			"properties": {
+				"id": {
+					"description": "Globally unique identifier (UUID or URI), OGC API compatible",
+					"oneOf": [
+						{ "type": "string", "format": "uuid" },
+						{ "type": "string", "format": "uri" }
+					]
+				},
+				"properties": {
+					"type": "object",
+					"required": ["pID", "name", "type"],
+					"properties": {
+						"pID": {
+							"description": "LADM domain identifier (namespace + localId)",
+							"$ref": "../core/datatypes.json#/$defs/Oid"
+						},
+						"name": {
+							"description": "Full name of the party (person or organisation)",
+							"type": "string"
+						},
+						"type": {
+							"description": "LA_PartyType codelist. Recommended scheme: LADM LA_PartyType. Common values: individual, baGroup, nonPersonEntity, anonymousParty.",
+							"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+						},
+						"roles": {
+							"description": "Roles this party plays in land administration (LA_PartyRoleType). Common values: owner, lessee, mortgagor, mortgagee, conveyancer.",
+							"type": "array",
+							"items": {
+								"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+							}
+						},
+						"extPID": {
+							"description": "External party identifier (e.g. national ID, company registration number, ORC-iD)",
+							"$ref": "../core/datatypes.json#/$defs/ExtPartyIdentifier"
+						},
+						"contact": {
+							"description": "Contact details for this party (OGC API Records contact pattern)",
+							"$ref": "../core/datatypes.json#/$defs/Contact"
+						},
+						"quality": {
+							"$ref": "../core/datatypes.json#/$defs/DQ_Quality"
+						},
+						"beginLifespanSource": {
+							"$ref": "../core/datatypes.json#/$defs/SourceRef"
+						},
+						"endLifespanSource": {
+							"$ref": "../core/datatypes.json#/$defs/SourceRef"
+						}
+					}
+				}
+			}
+		}
+	]
+}

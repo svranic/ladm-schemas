@@ -1,6 +1,6 @@
-{
+﻿{
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/source.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source.json",
 	"title": "LADM LA_Source class definition",
 	"description": "The abstract class to provide support for sources. It has two subclasses: LA_AdministrativeSource and LA_SpatialSource.",
 	"$comment": "The schema structure is defined in $defs to allow importing into other schemas",
@@ -9,6 +9,11 @@
 		"LA_Source": {
 			"type": "object",
 			"properties": {
+				"sourceType": {
+					"description": "Discriminator identifying the concrete subtype of LA_Source",
+					"type": "string",
+					"enum": ["spatialSource", "administrativeSource"]
+				},
 				"sID": {
 					"description": "LADM Oid - The unique identifier of the source",
 					"$ref": "./datatypes.json#/$defs/Oid"
@@ -64,12 +69,12 @@
 					}
 				},
 				"source": {
-					"description": "CI_ResponsibleParty - The party responsible for the document (Author/Surveyor)",
+					"description": "Responsible parties for this source document (Author/Surveyor/Conveyancer). Embedded Contact object or URI reference.",
 					"type": "array",
 					"items": {
 						"oneOf": [
 							{
-								"$ref": "./datatypes.json#/$defs/CI_ResponsibleParty"
+								"$ref": "./datatypes.json#/$defs/Contact"
 							},
 							{
 								"type": "string",
@@ -79,23 +84,17 @@
 					}
 				},
 				"createdObjects": {
-					"description": "List of VersionedObjects (e.g., Parcels, Rights) created/started by this source event. Can be URI references or full embedded objects.",
+					"description": "Typed references to VersionedObjects (e.g. Parcels, Rights) created/started by this source event.",
 					"type": "array",
 					"items": {
-						"title": "Reference by URI",
-						"type": "string",
-						"format": "uri",
-						"description": "URI Reference to the object"
+						"$ref": "./datatypes.json#/$defs/FeatureRef"
 					}
 				},
 				"voidedObjects": {
-					"description": "List of VersionedObjects (e.g., Parcels, Rights) destroyed/ended by this source event. Can be URI references or full embedded objects.",
+					"description": "Typed references to VersionedObjects (e.g. Parcels, Rights) destroyed/ended by this source event.",
 					"type": "array",
 					"items": {
-						"title": "Reference by URI",
-						"type": "string",
-						"format": "uri",
-						"description": "URI Reference to the object"
+						"$ref": "./datatypes.json#/$defs/FeatureRef"
 					}
 				}
 			},

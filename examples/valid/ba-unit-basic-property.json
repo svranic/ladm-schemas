@@ -1,0 +1,35 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/ba-unit.json",
+	"id": "b4cc290f-9c0a-4999-a023-bdf5f7654113",
+	"properties": {
+		"buID": {
+			"localId": "BU-2024-00001",
+			"namespace": "HR.DGU.CGP"
+		},
+		"name": "Katastarska čestica 1234/5",
+		"type": {
+			"concepts": [{ "id": "basicPropertyUnit", "title": "Basic Property Unit" }],
+			"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_BAUnitType"
+		},
+		"creationDate": "2024-03-15T00:00:00Z",
+		"su": [
+			{
+				"featureType": "LA_SpatialUnit",
+				"id": "550e8400-e29b-41d4-a716-446655440000",
+				"href": "https://api.cadastre.gov.hr/collections/parcels/items/550e8400-e29b-41d4-a716-446655440000",
+				"title": "Parcel 1234/5"
+			}
+		],
+		"rrr": [
+			{
+				"href": "https://api.cadastre.gov.hr/collections/rights/items/c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+				"featureType": "LA_Right",
+				"title": "Ownership right"
+			}
+		],
+		"beginLifespanSource": "https://api.cadastre.gov.hr/sources/DOC-2024-00789"
+	},
+	"lifespanVersion": {
+		"interval": ["2024-03-15T00:00:00Z", ".."]
+	}
+}

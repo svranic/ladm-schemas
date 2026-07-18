@@ -1,0 +1,22 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/spatial-unit/spatial-unit.json",
+	"_invalid_reason": "representationType is 'geometrical' but 'place' is absent — must fail the geometrical→place required rule",
+	"type": "Feature",
+	"id": "550e8400-e29b-41d4-a716-446655440003",
+	"featureType": "LA_SpatialUnit",
+	"coordRefSys": "urn:ogc:def:crs:EPSG::3765",
+	"properties": {
+		"suID": "HR.DGU.CGP/9999-INVALID",
+		"label": "9999/INVALID",
+		"dimension": "2D",
+		"representationType": "geometrical",
+		"area": [{
+			"measurement": 100.0,
+			"type": "calculatedArea",
+			"uom": {
+				"concepts": [{ "id": "M2" }],
+				"scheme": "https://qudt.org/vocab/unit/"
+			}
+		}]
+	}
+}

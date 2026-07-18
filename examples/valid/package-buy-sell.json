@@ -1,0 +1,131 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/submission-package.json",
+	"submissionId": "SUB-2024-00789",
+	"submittedAt": "2024-03-14T10:00:00Z",
+	"submittedBy": {
+		"name": "Notarska pisarnica Horvat d.o.o.",
+		"organization": "Notarska pisarnica Horvat d.o.o.",
+		"roles": ["conveyancer"],
+		"emails": [{ "value": "office@notarhorvat.hr" }]
+	},
+	"description": "Transfer of ownership of parcel 1234/5 from Ana Kovač (seller) to Ivan Horvat (buyer), notarial deed OV-2024-0789",
+
+	"sources": [
+		{
+			"sourceType": "administrativeSource",
+			"sID": { "localId": "DOC-2024-00789", "namespace": "HR.ZK.ZAGREB" },
+			"availabilityStatus": "docAvailable",
+			"maintype": "documentDigital",
+			"type": {
+				"concepts": [{ "id": "deed", "title": "Notarial Deed of Sale" }],
+				"scheme": "https://cadastre.gov.hr/codelist/adminSourceType"
+			},
+			"submission": "2024-03-14T10:00:00Z",
+			"acceptance": "2024-03-14T14:30:00Z",
+			"recordation": "2024-03-15T08:00:00Z",
+			"extArchiveID": {
+				"archiveID": "OV-2024-0789",
+				"acceptanceDate": "2024-03-14",
+				"name": "Notarska pisarnica Horvat d.o.o. — arhiva 2024"
+			},
+			"source": [
+				{
+					"name": "Notarska pisarnica Horvat d.o.o.",
+					"roles": ["conveyancer"],
+					"organization": "Notarska pisarnica Horvat d.o.o."
+				},
+				{
+					"name": "Ana Kovač",
+					"roles": ["owner"],
+					"identifier": "98765432109"
+				},
+				{
+					"name": "Ivan Horvat",
+					"roles": ["owner"],
+					"identifier": "12345678901"
+				}
+			],
+			"createdObjects": [
+				{
+					"featureType": "LA_Party",
+					"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"title": "Party — Ivan Horvat (buyer)"
+				},
+				{
+					"featureType": "LA_Right",
+					"id": "c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+					"title": "Ownership right — Ivan Horvat on parcel 1234/5"
+				}
+			],
+			"voidedObjects": [
+				{
+					"featureType": "LA_Right",
+					"id": "d6ee402h-be2c-6bbb-c245-dfg7h9876335",
+					"href": "https://api.cadastre.gov.hr/collections/rights/items/d6ee402h-be2c-6bbb-c245-dfg7h9876335",
+					"title": "Ownership right — Ana Kovač (seller, previous owner)"
+				}
+			]
+		}
+	],
+
+	"parties": [
+		{
+			"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+			"properties": {
+				"pID": { "localId": "P-2024-00001", "namespace": "HR.DGU.CGP" },
+				"name": "Ivan Horvat",
+				"type": {
+					"concepts": [{ "id": "individual", "title": "Individual" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_PartyType"
+				},
+				"roles": [{
+					"concepts": [{ "id": "owner", "title": "Owner" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_PartyRoleType"
+				}],
+				"extPID": {
+					"value": "12345678901",
+					"type": {
+						"concepts": [{ "id": "OIB", "title": "Croatian Personal Identification Number" }],
+						"scheme": "https://cadastre.gov.hr/codelist/partyIdentifierType"
+					}
+				},
+				"contact": {
+					"emails": [{ "value": "ivan.horvat@email.hr" }]
+				}
+			},
+			"lifespanVersion": { "interval": ["2024-03-15T08:00:00Z", ".."] }
+		}
+	],
+
+	"baUnits": [],
+
+	"rrrs": [
+		{
+			"id": "c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+			"properties": {
+				"rID": { "localId": "R-2024-00001", "namespace": "HR.DGU.CGP" },
+				"rrrType": "right",
+				"type": {
+					"concepts": [{ "id": "ownership", "title": "Ownership" }],
+					"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_RightType"
+				},
+				"description": "Full ownership of parcel 1234/5 transferred by notarial deed OV-2024-0789",
+				"share": { "numerator": 1, "denominator": 1 },
+				"shareCheck": true,
+				"party": {
+					"featureType": "LA_Party",
+					"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+					"title": "Ivan Horvat (buyer)"
+				},
+				"unit": {
+					"featureType": "LA_BAUnit",
+					"id": "b4cc290f-9c0a-4999-a023-bdf5f7654113",
+					"href": "https://api.cadastre.gov.hr/collections/ba-units/items/b4cc290f-9c0a-4999-a023-bdf5f7654113",
+					"title": "BAUnit for parcel 1234/5 (existing)"
+				},
+				"beginLifespanSource": "https://api.cadastre.gov.hr/sources/DOC-2024-00789"
+			},
+			"lifespanVersion": { "interval": ["2024-03-15T08:00:00Z", ".."] }
+		}
+	]
+}

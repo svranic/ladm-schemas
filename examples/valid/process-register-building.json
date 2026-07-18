@@ -1,0 +1,143 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/source/spatial-source.json",
+	"_description": "Process example: Registering a new building (spatial part). A surveyor submits the building footprint survey. The spatial source contains the adjusted building corner points (type 'building' — these become registered LA_Point objects), plus auxiliary points measured for context (neighbouring lot corners, road edge). All new objects use client-generated UUIDs — no href yet. A companion administrative source (building permit, not shown here) will be linked as the beginLifespanSource on the created BAUnit and Right.",
+
+	"sourceType": "spatialSource",
+	"sID": {
+		"localId": "SP-2024-00321",
+		"namespace": "HR.GEOSURVEY.NOVAK"
+	},
+	"availabilityStatus": "incomplete",
+	"maintype": "mapDigital",
+	"procedure": "totalStation",
+	"submission": "2024-06-01T09:00:00Z",
+	"source": [
+		{
+			"name": "Ovlašteni inženjer geodezije Marko Novak",
+			"roles": ["principalInvestigator"],
+			"organization": "GeoSurvey d.o.o.",
+			"emails": [{ "value": "m.novak@geosurvey.hr" }]
+		}
+	],
+	"measurements": [
+		{
+			"localId": "PT-B01",
+			"pointType": "building",
+			"coordinates": [552100.00, 4981200.00],
+			"monumentation": {
+				"concepts": [{ "id": "unmarked", "title": "Unmarked" }],
+				"scheme": "https://cadastre.gov.hr/codelist/monumentation"
+			},
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.03, "unit": "m" }
+			}
+		},
+		{
+			"localId": "PT-B02",
+			"pointType": "building",
+			"coordinates": [552155.00, 4981200.00],
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.03, "unit": "m" }
+			}
+		},
+		{
+			"localId": "PT-B03",
+			"pointType": "building",
+			"coordinates": [552155.00, 4981150.00],
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.03, "unit": "m" }
+			}
+		},
+		{
+			"localId": "PT-B04",
+			"pointType": "building",
+			"coordinates": [552100.00, 4981150.00],
+			"accuracy": {
+				"type": {
+					"concepts": [{ "id": "DQ_AbsoluteExternalPositionalAccuracy" }],
+					"scheme": "https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/"
+				},
+				"result": { "value": 0.03, "unit": "m" }
+			}
+		},
+		{
+			"localId": "PT-A01",
+			"pointType": "auxiliary",
+			"coordinates": [552200.00, 4981250.00],
+			"note": "Neighbouring parcel corner — measured for sketch context, not to be registered"
+		},
+		{
+			"localId": "PT-A02",
+			"pointType": "auxiliary",
+			"coordinates": [552050.00, 4981250.00],
+			"note": "Neighbouring parcel corner — measured for sketch context, not to be registered"
+		},
+		{
+			"localId": "PT-C01",
+			"pointType": "control",
+			"coordinates": [552000.00, 4981100.00],
+			"note": "Total station setup point — trigonometric point HR-T-5543, used as instrument station"
+		}
+	],
+	"assets": {
+		"sketch": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-sketch.pdf",
+			"type": "application/pdf",
+			"title": "Field sketch — Building Ilica 42",
+			"roles": ["sketch", "overview"],
+			"description": "Hand-drawn and digitised field sketch showing measured points, building outline, and neighbouring parcels"
+		},
+		"adjusted-coordinates": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-points.geojson",
+			"type": "application/geo+json",
+			"title": "Adjusted boundary and building points",
+			"roles": ["data"]
+		},
+		"survey-report": {
+			"href": "https://storage.geosurvey.hr/submissions/SP-2024-00321-report.pdf",
+			"type": "application/pdf",
+			"title": "Survey Technical Report",
+			"roles": ["report"]
+		}
+	},
+	"createdObjects": [
+		{
+			"featureType": "LA_SpatialUnit",
+			"id": "e7ff513i-cf3d-7ccc-d356-egh8i0987446",
+			"title": "Building footprint — Ilica 42 (new, pending registration)"
+		},
+		{
+			"featureType": "LA_Point",
+			"id": "f1aa001b-0001-0001-0001-000000000001",
+			"title": "Building corner PT-B01"
+		},
+		{
+			"featureType": "LA_Point",
+			"id": "f1aa001b-0001-0001-0001-000000000002",
+			"title": "Building corner PT-B02"
+		},
+		{
+			"featureType": "LA_Point",
+			"id": "f1aa001b-0001-0001-0001-000000000003",
+			"title": "Building corner PT-B03"
+		},
+		{
+			"featureType": "LA_Point",
+			"id": "f1aa001b-0001-0001-0001-000000000004",
+			"title": "Building corner PT-B04"
+		}
+	],
+	"voidedObjects": []
+}

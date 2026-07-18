@@ -1,45 +1,61 @@
-{
+﻿{
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/main/schemas/la/core/datatypes.json",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/core/datatypes.json",
 	"title": "LADM Land Registration Module Shared Datatypes",
-	"description": "Common data types (ISO 19115, ISO 19107)",
+	"description": "Common data types aligned with OGC API Records, ISO 19157, and ISO 19107.",
 	"$defs": {
 		"Oid": {
 			"type": "object",
-			"description": "Basic definition of Oid",
+			"description": "LADM Object Identifier (namespace + localId)",
 			"properties": {
-				"localId": {
-					"type": "string"
-				},
-				"namespace": {
-					"type": "string"
-				}
+				"localId": { "type": "string" },
+				"namespace": { "type": "string" }
 			},
-			"required": [
-				"localId",
-				"namespace"
-			]
+			"required": ["localId", "namespace"]
 		},
+
 		"CodeListRef": {
-			"description": "Pattern for referencing external CodeLists (SKOS/RDF)",
+			"description": "Reference to an external codelist concept using the OGC API Records 'theme' pattern. The 'scheme' identifies the codelist vocabulary; 'concepts' lists the selected concept(s).",
 			"type": "object",
 			"properties": {
-				"href": {
+				"concepts": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "Code / local identifier within the scheme"
+							},
+							"title": {
+								"type": "string",
+								"description": "Human-readable label"
+							},
+							"description": {
+								"type": "string",
+								"description": "Longer description of the concept"
+							},
+							"url": {
+								"type": "string",
+								"format": "uri",
+								"description": "Dereferenceable URI for this concept"
+							}
+						},
+						"required": ["id"]
+					}
+				},
+				"scheme": {
 					"type": "string",
 					"format": "uri",
-					"description": "URI to the specific code definition"
-				},
-				"label": {
-					"type": "string",
-					"description": "Human-readable label (optional)"
+					"description": "URI of the codelist / vocabulary (e.g. an INSPIRE codelist, SKOS ConceptScheme, or QUDT unit registry)"
 				}
 			},
-			"required": [
-				"href"
-			]
+			"required": ["concepts", "scheme"]
 		},
+
 		"LA_AvailabilityStatusType": {
-			"description": "LA_AvailabilityStatusType - The status of the document availability",
+			"description": "LA_AvailabilityStatusType — availability status of the source document",
 			"type": "string",
 			"enum": [
 				"docAvailable",
@@ -49,112 +65,240 @@
 			],
 			"default": "docAvailable"
 		},
-		"CI_ResponsibleParty": {
+
+		"Contact": {
+			"description": "Party contact information, aligned with OGC API Records contact object. Used for LA_AdministrativeSource party associations and LA_Source responsible parties.",
 			"type": "object",
-			"description": "Implementation of ISO 19115 class CI_ResponsibleParty",
 			"properties": {
-				"organisationName": {
-					"type": "string"
-				},
-				"individualName": {
-					"type": "string"
-				},
-				"role": {
+				"identifier": {
 					"type": "string",
-					"enum": [
-						"resourceProvider",
-						"custodian",
-						"owner",
-						"user",
-						"distributor",
-						"originator",
-						"pointOfContact",
-						"principalInvestigator",
-						"processor",
-						"publisher",
-						"author"
-					]
+					"description": "Identifier for the contact (e.g. ORC-iD, national ID)"
 				},
-				"contactInfo": {
-					"type": "object",
-					"properties": {
-						"email": {
-							"type": "string",
-							"format": "email"
+				"name": {
+					"type": "string",
+					"description": "Name of the person or organisation"
+				},
+				"position": {
+					"type": "string",
+					"description": "Position or job title"
+				},
+				"organization": {
+					"type": "string",
+					"description": "Organisation the contact belongs to"
+				},
+				"phones": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"value": { "type": "string" },
+							"roles": { "type": "array", "items": { "type": "string" } }
 						},
-						"phone": {
-							"type": "string"
+						"required": ["value"]
+					}
+				},
+				"emails": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"value": { "type": "string", "format": "email" },
+							"roles": { "type": "array", "items": { "type": "string" } }
+						},
+						"required": ["value"]
+					}
+				},
+				"addresses": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"deliveryPoint": { "type": "array", "items": { "type": "string" } },
+							"city": { "type": "string" },
+							"administrativeArea": { "type": "string" },
+							"postalCode": { "type": "string" },
+							"country": { "type": "string" },
+							"roles": { "type": "array", "items": { "type": "string" } }
 						}
 					}
+				},
+				"links": {
+					"type": "array",
+					"description": "Web presence, social profiles, etc.",
+					"items": {
+						"type": "object",
+						"properties": {
+							"href": { "type": "string", "format": "uri" },
+							"rel": { "type": "string" },
+							"type": { "type": "string" },
+							"title": { "type": "string" }
+						},
+						"required": ["href"]
+					}
+				},
+				"hoursOfService": { "type": "string" },
+				"contactInstructions": { "type": "string" },
+				"roles": {
+					"type": "array",
+					"description": "Roles this contact plays (e.g. 'conveyancer', 'owner', 'surveyor'). LADM-specific roles should reference a CodeListRef.",
+					"items": { "type": "string" }
 				}
 			},
-			"required": [
-				"organisationName",
-				"role"
-			]
+			"required": ["name"]
 		},
+
 		"DQ_Quality": {
 			"type": "object",
-			"description": "Implementation of ISO 19115 class DQ_Element",
+			"description": "Data quality element per ISO 19157. The 'type' references the ISO 19157 quality measure registry via CodeListRef.",
 			"properties": {
 				"type": {
-					"type": "string",
-					"description": "The name of the subclass of quality (e.g. PositionalAccuracy)",
-					"enum": [
-						"DQ_AbsoluteExternalPositionalAccuracy",
-						"DQ_RelativeInternalPositionalAccuracy",
-						"DQ_CompletenessCommission"
-					]
+					"description": "ISO 19157 quality element type. Reference the ISO 19157 quality measure registry (https://def.isotc211.org/iso19157/-2/2023/QualityMeasure/). Common values: DQ_AbsoluteExternalPositionalAccuracy, DQ_CompletenessCommission, DQ_TopologicalConsistency, etc.",
+					"$ref": "#/$defs/CodeListRef"
 				},
 				"result": {
 					"type": "object",
 					"description": "Quantitative result (DQ_QuantitativeResult)",
 					"properties": {
-						"value": {
-							"type": "number"
-						},
+						"value": { "type": "number" },
 						"unit": {
 							"type": "string",
-							"enum": [
-								"m",
-								"cm",
-								"mm"
-							]
+							"description": "Unit of measure for the result value",
+							"enum": ["m", "cm", "mm", "%", "count"]
 						}
 					},
-					"required": [
-						"value",
-						"unit"
-					]
+					"required": ["value", "unit"]
 				},
 				"lineage": {
 					"type": "string",
-					"description": "Textual description LI_Lineage (the origin of the data)"
+					"description": "LI_Lineage — textual description of the origin of the data"
 				}
 			},
-			"required": [
-				"type",
-				"result"
-			]
+			"required": ["type", "result"]
 		},
-		"SourceRef": {
-			"description": "A reference to ANY type of LADM Source. Can be a URI or a full embedded object (Spatial or Admin).",
-			"oneOf": [
-				{
-					"title": "Reference by URI",
+
+		"Fraction": {
+			"description": "A rational number expressed as a numerator/denominator pair. Used for co-ownership shares in LA_RRR.",
+			"type": "object",
+			"properties": {
+				"numerator": { "type": "integer", "minimum": 1 },
+				"denominator": { "type": "integer", "minimum": 1 }
+			},
+			"required": ["numerator", "denominator"]
+		},
+
+		"ExtPartyIdentifier": {
+			"description": "External identifier for a party (e.g. national ID number, company registration number, ORC-iD). The 'type' CodeListRef identifies the identifier scheme.",
+			"type": "object",
+			"properties": {
+				"value": {
+					"type": "string",
+					"description": "The identifier value"
+				},
+				"type": {
+					"description": "The identifier scheme (e.g. 'OIB' for Croatian personal ID, 'ORC-iD', 'VAT')",
+					"$ref": "#/$defs/CodeListRef"
+				}
+			},
+			"required": ["value", "type"]
+		},
+
+		"FeatureRef": {
+			"description": "Typed reference to any LADM feature. Provides the target type before dereferencing. 'href' is present for existing (already registered) objects; absent for newly created objects that have no persistent API endpoint yet (e.g. in a submission package). At minimum one of 'id' or 'href' must be provided.",
+			"type": "object",
+			"properties": {
+				"featureType": {
+					"type": "string",
+					"description": "LADM feature type of the referenced object (e.g. 'LA_SpatialUnit', 'LA_BAUnit', 'LA_Right')"
+				},
+				"id": {
+					"description": "Unique identifier of the referenced feature. For new objects in a submission, use a client-generated UUID. For existing objects, use the cadastre-assigned UUID or URI.",
+					"oneOf": [
+						{ "type": "string", "format": "uuid" },
+						{ "type": "string", "format": "uri" }
+					]
+				},
+				"href": {
 					"type": "string",
 					"format": "uri",
-					"description": "Link to the source document (e.g. https://api.cadastre.gov.hr/sources/doc-123)"
+					"description": "Dereferenceable URI of the referenced feature (OGC API - Features item endpoint). Present for existing objects; omitted for new objects not yet registered."
 				},
-				{
+				"title": {
+					"type": "string",
+					"description": "Human-readable label for the referenced feature"
+				}
+			},
+			"anyOf": [
+				{ "required": ["id"] },
+				{ "required": ["href"] }
+			]
+		},
+
+		"RRRRef": {
+			"description": "A reference to any LA_RRR subtype (right, restriction, responsibility). Either a URI link or an embedded object identified by the 'rrrType' discriminator.",
+			"discriminator": {
+				"propertyName": "rrrType",
+				"mapping": {
+					"right": "../administrative/right.json",
+					"restriction": "../administrative/restriction.json",
+					"responsibility": "../administrative/responsibility.json"
+				}
+			},
+			"if": { "type": "string" },
+			"then": { "format": "uri" },
+			"else": {
+				"if": {
+					"properties": { "properties": { "properties": { "rrrType": { "const": "right" } }, "required": ["rrrType"] } }
+				},
+				"then": { "$ref": "../administrative/right.json" },
+				"else": {
+					"if": {
+						"properties": { "properties": { "properties": { "rrrType": { "const": "restriction" } }, "required": ["rrrType"] } }
+					},
+					"then": { "$ref": "../administrative/restriction.json" },
+					"else": { "$ref": "../administrative/rrr.json#/$defs/LA_RRR" }
+				}
+			}
+		},
+
+		"SourceRef": {
+			"description": "A reference to any LADM Source. Either a URI (external link) or a full embedded LA_SpatialSource or LA_AdministrativeSource object, identified by the 'sourceType' discriminator.",
+			"discriminator": {
+				"propertyName": "sourceType",
+				"mapping": {
+					"spatialSource": "./source/spatial-source.json",
+					"administrativeSource": "./source/administrative-source.json"
+				}
+			},
+			"if": { "type": "string" },
+			"then": {
+				"title": "Reference by URI",
+				"format": "uri",
+				"description": "Link to the source document (e.g. https://api.cadastre.gov.hr/sources/doc-123)"
+			},
+			"else": {
+				"if": {
+					"properties": { "sourceType": { "const": "spatialSource" } },
+					"required": ["sourceType"]
+				},
+				"then": {
 					"title": "Embedded Spatial Source",
 					"$ref": "./source/spatial-source.json"
 				},
-				{
-					"title": "Embedded Administrative Source",
-					"$ref": "./source/administrative-source.json"
+				"else": {
+					"if": {
+						"properties": { "sourceType": { "const": "administrativeSource" } },
+						"required": ["sourceType"]
+					},
+					"then": {
+						"title": "Embedded Administrative Source",
+						"$ref": "./source/administrative-source.json"
+					},
+					"else": {
+						"title": "Embedded LA_Source (user-defined subclass)",
+						"$ref": "./source.json#/$defs/LA_Source"
+					}
 				}
-			]
+			}
 		}
 	}
 }

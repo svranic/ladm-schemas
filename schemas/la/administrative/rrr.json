@@ -1,0 +1,89 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/rrr.json",
+	"title": "LADM LA_RRR (abstract base)",
+	"description": "Abstract base class for Rights, Restrictions, and Responsibilities. Every RRR links a party to a basic administrative unit via an administrative source. Concrete subtypes are LA_Right, LA_Restriction, and LA_Responsibility — identified by the 'rrrType' discriminator.",
+
+	"$defs": {
+		"LA_RRR": {
+			"type": "object",
+			"description": "Abstract RRR mixin — shared properties for all rights, restrictions, and responsibilities",
+			"allOf": [
+				{
+					"$comment": "INHERITANCE: LADM VersionedObject (lifecycle tracking)",
+					"$ref": "../core/versioned-object.json#/$defs/VersionedObject"
+				},
+				{
+					"$comment": "LA_RRR base properties",
+					"type": "object",
+					"required": ["id", "properties"],
+					"properties": {
+						"id": {
+							"description": "Globally unique identifier (UUID or URI), OGC API compatible",
+							"oneOf": [
+								{ "type": "string", "format": "uuid" },
+								{ "type": "string", "format": "uri" }
+							]
+						},
+						"properties": {
+							"type": "object",
+							"required": ["rID", "rrrType", "type", "party", "unit"],
+							"properties": {
+								"rID": {
+									"description": "LADM domain identifier (namespace + localId)",
+									"$ref": "../core/datatypes.json#/$defs/Oid"
+								},
+								"rrrType": {
+									"description": "Discriminator identifying the concrete RRR subtype",
+									"type": "string",
+									"enum": ["right", "restriction", "responsibility"]
+								},
+								"type": {
+									"description": "Specific type of this RRR (LA_RightType, LA_RestrictionType, or LA_ResponsibilityType codelist). Refer to the appropriate codelist scheme for each rrrType.",
+									"$ref": "../core/datatypes.json#/$defs/CodeListRef"
+								},
+								"description": {
+									"description": "Free-text description of this RRR",
+									"type": "string"
+								},
+								"share": {
+									"description": "Fractional share of this right/restriction/responsibility (e.g. 1/2 for co-ownership). Omit if full interest.",
+									"$ref": "../core/datatypes.json#/$defs/Fraction"
+								},
+								"shareCheck": {
+									"description": "Flag indicating the shares across all co-owners have been verified to sum to 1",
+									"type": "boolean"
+								},
+								"timeSpec": {
+									"description": "Time specification or duration for this RRR (e.g. lease term, easement period)",
+									"type": "string"
+								},
+								"party": {
+									"description": "Typed reference to the LA_Party holding this right, restriction, or responsibility [1..1]",
+									"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+								},
+								"unit": {
+									"description": "Typed reference to the LA_BAUnit this RRR applies to [1..1]",
+									"$ref": "../core/datatypes.json#/$defs/FeatureRef"
+								},
+								"quality": {
+									"$ref": "../core/datatypes.json#/$defs/DQ_Quality"
+								},
+								"beginLifespanSource": {
+									"description": "LA_AdministrativeSource that established this RRR",
+									"$ref": "../core/datatypes.json#/$defs/SourceRef"
+								},
+								"endLifespanSource": {
+									"description": "LA_AdministrativeSource that terminated this RRR",
+									"$ref": "../core/datatypes.json#/$defs/SourceRef"
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	},
+
+	"$ref": "#/$defs/LA_RRR"
+}

@@ -1,0 +1,37 @@
+{
+	"$schema": "https://raw.githubusercontent.com/svranic/ladm-schemas/v1.0/schemas/la/administrative/right.json",
+	"id": "c5dd391g-ad1b-5aaa-b134-cef6g8765224",
+	"properties": {
+		"rID": {
+			"localId": "R-2024-00001",
+			"namespace": "HR.DGU.CGP"
+		},
+		"rrrType": "right",
+		"type": {
+			"concepts": [{ "id": "ownership", "title": "Ownership" }],
+			"scheme": "http://def.isotc211.org/iso19152/2012/LandAdministration#LA_RightType"
+		},
+		"description": "Full ownership right over cadastral parcel 1234/5",
+		"share": {
+			"numerator": 1,
+			"denominator": 1
+		},
+		"shareCheck": true,
+		"party": {
+			"featureType": "LA_Party",
+			"id": "a3bb189e-8bf9-3888-9912-ace4e6543002",
+			"href": "https://api.cadastre.gov.hr/collections/parties/items/a3bb189e-8bf9-3888-9912-ace4e6543002",
+			"title": "Ivan Horvat"
+		},
+		"unit": {
+			"featureType": "LA_BAUnit",
+			"id": "b4cc290f-9c0a-4999-a023-bdf5f7654113",
+			"href": "https://api.cadastre.gov.hr/collections/ba-units/items/b4cc290f-9c0a-4999-a023-bdf5f7654113",
+			"title": "Katastarska čestica 1234/5"
+		},
+		"beginLifespanSource": "https://api.cadastre.gov.hr/sources/DOC-2024-00789"
+	},
+	"lifespanVersion": {
+		"interval": ["2024-03-15T00:00:00Z", ".."]
+	}
+}
